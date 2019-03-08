@@ -1,0 +1,2 @@
+# Solids Lib for pyOpenGL
+
