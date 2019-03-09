@@ -18,9 +18,9 @@ class Solids:
         self.surface = surfaces
         self.color = np.asarray(color)
         self.size = size
-        self._origin = np.asarray(origin)
-        self._offset = np.asarray(offset)
-        self._axis = np.asarray(axis)
+        self._origin = np.asarray(origin, np.dtype('float64'))
+        self._offset = np.asarray(offset, np.dtype('float64'))
+        self._axis = np.asarray(axis, np.dtype('float64'))
         self._theta_degree = 0
         self._theta = 0
 
@@ -70,11 +70,11 @@ class Solids:
 
     @property
     def origin(self):
-        return self.origin
+        return self._origin
 
     @origin.setter
     def origin(self, value):
-        self._origin = np.asarray(value)
+        self._origin = np.asarray(np.asarray(value, np.dtype('float64')))
 
     @property
     def offset(self):
@@ -82,7 +82,7 @@ class Solids:
 
     @offset.setter
     def offset(self, value):
-        self._offset = np.asarray(value)
+        self._offset = np.asarray(value, np.dtype('float64'))
         for i, vertex in enumerate(self.vertices):
             self.vertices[i][:] = [vertex[0]+self._offset[0],
                                    vertex[1]+self._offset[1],
@@ -94,7 +94,7 @@ class Solids:
 
     @axis.setter
     def axis(self, value):
-        self._axis = np.asarray(value)
+        self._axis = np.asarray(value, np.dtype('float64'))
 
     @property
     def theta(self):

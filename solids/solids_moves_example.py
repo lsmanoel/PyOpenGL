@@ -56,9 +56,9 @@ class Orbit:
                       size=0.12)
         self.solids_list.append(cube_5)
 
-        self._origin = np.asarray(origin)
-        self._offset = np.asarray(offset)
-        self._axis = np.asarray(axis)
+        self._origin = np.asarray(origin, np.dtype('float64'))
+        self._offset = np.asarray(offset, np.dtype('float64'))
+        self._axis = np.asarray(axis, np.dtype('float64'))
         self._theta_degree = 0
         self._theta = 0
 
@@ -68,12 +68,13 @@ class Orbit:
 
     @property
     def origin(self):
-        return self.origin
+        return self._origin
 
     @origin.setter
     def origin(self, value):
+        self._origin = np.asarray(value, np.dtype('float64'))
         for solid in self.solids_list:
-            solid.origin = np.asarray(value)
+            solid.origin = self._origin
 
     @property
     def offset(self):
@@ -81,8 +82,9 @@ class Orbit:
 
     @offset.setter
     def offset(self, value):
+        self._offset = np.asarray(value, np.dtype('float64'))
         for solid in self.solids_list:
-            solid.offset = np.asarray(value)
+            solid.offset = np.asarray(self._offset)
 
     @property
     def axis(self):
@@ -90,8 +92,9 @@ class Orbit:
 
     @axis.setter
     def axis(self, value):
+        self._axis = np.asarray(value, np.dtype('float64'))
         for solid in self.solids_list:
-            solid.axis = np.asarray(value)
+            solid.axis = np.asarray(self._axis)
 
     @property
     def theta(self):

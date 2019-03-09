@@ -9,9 +9,9 @@ from OpenGL.GLU import *
 
 class Tank:
     def __init__(self,
-                 origin=(0, -1, -5),
+                 origin=(0, 0, -5),
                  offset=(0, 0, 0),
-                 axis=(0.6, 1, 0),
+                 axis=(1, 1, 1),
                  theta=np.pi/2):
 
         self.solids_list = []
@@ -104,9 +104,9 @@ class Tank:
                                size=(0.1, 1.6))
         self.solids_list.append(cannon_1)
 
-        self._origin = np.asarray(origin)
-        self._offset = np.asarray(offset)
-        self._axis = np.asarray(axis)
+        self._origin = np.asarray(origin, np.dtype('float64'))
+        self._offset = np.asarray(offset, np.dtype('float64'))
+        self._axis = np.asarray(axis, np.dtype('float64'))
         self._theta_degree = 0
         self._theta = 0
 
@@ -116,12 +116,13 @@ class Tank:
 
     @property
     def origin(self):
-        return self.origin
+        return self._origin
 
     @origin.setter
     def origin(self, value):
+        self._origin = np.asarray(value, np.dtype('float64'))
         for solid in self.solids_list:
-            solid.origin = np.asarray(value)
+            solid.origin = self._origin
 
     @property
     def offset(self):
@@ -129,8 +130,9 @@ class Tank:
 
     @offset.setter
     def offset(self, value):
+        self._offset = np.asarray(value, np.dtype('float64'))
         for solid in self.solids_list:
-            solid.offset = np.asarray(value)
+            solid.offset = np.asarray(self._offset)
 
     @property
     def axis(self):
@@ -138,8 +140,9 @@ class Tank:
 
     @axis.setter
     def axis(self, value):
+        self._axis = np.asarray(value, np.dtype('float64'))
         for solid in self.solids_list:
-            solid.axis = np.asarray(value)
+            solid.axis = np.asarray(self._axis)
 
     @property
     def theta(self):
@@ -185,7 +188,8 @@ def main():
     glMatrixMode(GL_MODELVIEW)
     glEnable(GL_DEPTH_TEST)
 
-    tank_1 = Tank()
+    tank_1 = Tank(origin=(-2, 0, -5))
+    i = 0
 
     while True:
         for event in pygame.event.get():
@@ -195,7 +199,16 @@ def main():
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         tank_1.draw()
-        tank_1.theta += np.pi/20
+
+        tank_1.theta += np.pi / (20)
+        if i < 40:
+            tank_1.origin += np.asarray([0.1, 0.0, 0.0])
+            i += 1
+        if 40 <= i < 80:
+            tank_1.origin -= np.asarray([0.1, 0.0, 0.0])
+            i += 1
+        if i >= 80:
+            i = 0
 
         pygame.display.flip()
 
