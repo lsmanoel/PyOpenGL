@@ -103,11 +103,11 @@ class Solids:
     @theta.setter
     def theta(self, value):
         self._theta = value
+        if self._theta > 2*np.pi:
+            self._theta += 2*np.pi
+        elif self._theta > 2*np.pi:
+            self._theta -= 2*np.pi
         self._theta_degree = 180 * (value / np.pi)
-        if self._theta_degree < 0:
-            self._theta_degree += 360
-        elif self._theta_degree > 360:
-            self._theta_degree -= 360
 
     @property
     def theta_degree(self):
@@ -116,11 +116,11 @@ class Solids:
     @theta_degree.setter
     def theta_degree(self, value):
         self._theta_degree = value
-        self._theta = np.pi*(value/180)
-        if self._theta > 2*np.pi:
-            self._theta += 2*np.pi
-        elif self._theta > 2*np.pi:
-            self._theta -= 2*np.pi
+        if self._theta_degree < 0:
+            self._theta_degree += 360
+        elif self._theta_degree > 360:
+            self._theta_degree -= 360
+        self._theta = np.pi * (value / 180)
 
 
 class Pyramid(Solids):

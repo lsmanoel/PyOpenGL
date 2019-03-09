@@ -11,7 +11,7 @@ class Tank:
     def __init__(self,
                  origin=(0, -1, -5),
                  axis=(0.6, 1, 0),
-                 theta=np.pi/3):
+                 theta=np.pi/2):
 
         self.solids_list = []
 
