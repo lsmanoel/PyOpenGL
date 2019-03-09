@@ -10,6 +10,7 @@ from OpenGL.GLU import *
 class Tank:
     def __init__(self,
                  origin=(0, -1, -5),
+                 offset=(0, 0, 0),
                  axis=(0.6, 1, 0),
                  theta=np.pi/2):
 
@@ -103,9 +104,76 @@ class Tank:
                                size=(0.1, 1.6))
         self.solids_list.append(cannon_1)
 
+        self._origin = np.asarray(origin)
+        self._offset = np.asarray(offset)
+        self._axis = np.asarray(axis)
+        self._theta_degree = 0
+        self._theta = 0
+
     def draw(self):
         for solid in self.solids_list:
             solid.draw()
+
+    @property
+    def origin(self):
+        return self.origin
+
+    @origin.setter
+    def origin(self, value):
+        for solid in self.solids_list:
+            solid.origin = np.asarray(value)
+
+    @property
+    def offset(self):
+        return self._offset
+
+    @offset.setter
+    def offset(self, value):
+        for solid in self.solids_list:
+            solid.offset = np.asarray(value)
+
+    @property
+    def axis(self):
+        return self._axis
+
+    @axis.setter
+    def axis(self, value):
+        for solid in self.solids_list:
+            solid.axis = np.asarray(value)
+
+    @property
+    def theta(self):
+        return self._theta
+
+    @theta.setter
+    def theta(self, value):
+        self._theta = value
+        if self._theta > 2*np.pi:
+            self._theta += 2*np.pi
+        elif self._theta > 2*np.pi:
+            self._theta -= 2*np.pi
+
+        self._theta_degree = 180 * (value / np.pi)
+
+        for solid in self.solids_list:
+            solid.theta = self._theta
+
+    @property
+    def theta_degree(self):
+        return self._theta_degree
+
+    @theta_degree.setter
+    def theta_degree(self, value):
+        self._theta_degree = value
+        if self._theta_degree < 0:
+            self._theta_degree += 360
+        elif self._theta_degree > 360:
+            self._theta_degree -= 360
+
+        self._theta = np.pi * (value / 180)
+
+        for solid in self.solids_list:
+            solid.theta_degree = self._theta_degree
 
 
 def main():
@@ -127,6 +195,7 @@ def main():
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         tank_1.draw()
+        tank_1.theta += np.pi/20
 
         pygame.display.flip()
 
