@@ -13,4 +13,6 @@ Basic solids for three-dimensional shapes composition:
 
 ![alt text](https://raw.githubusercontent.com/lsmanoel/PyOpenGL/master/solids/tank_1.png)
 
+![alt text](https://raw.githubusercontent.com/lsmanoel/PyOpenGL/master/solids/tank_1.gif)
+
 ![alt text](https://raw.githubusercontent.com/lsmanoel/PyOpenGL/master/solids/orbit_pyOpenGL.gif)
