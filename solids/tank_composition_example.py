@@ -200,7 +200,7 @@ def main():
 
         tank_1.draw()
 
-        tank_1.theta += np.pi / (20)
+        tank_1.theta += np.pi/(20)
         if i < 40:
             tank_1.origin += np.asarray([0.1, 0.0, 0.0])
             i += 1
