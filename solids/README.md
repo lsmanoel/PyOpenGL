@@ -4,6 +4,7 @@ Basic solids for three-dimensional shapes composition:
 
 * Cube
 * Parallelepiped
+* Trapezoid
 * Pyramid
 * Pyramid Trunk
 * Hexagon

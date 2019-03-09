@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 
-from Solids import *
+from solids.Solids import *
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
