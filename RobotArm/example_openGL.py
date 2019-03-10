@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 import numpy as np
 from RobotArm.Parts import MasterPart, SlavePart
+from solids.Solids import *
 import time
 import threading
 import os
@@ -22,55 +23,24 @@ class PgScreen:
         self.pixel_meter = pixel_meter
 
         pygame.init()
-
         self.screen = pygame.display.set_mode(screen_size, DOUBLEBUF | OPENGL)
         gluPerspective(50, (screen_size[0] / screen_size[1]), 0.1, 50.0)
+        glMatrixMode(GL_MODELVIEW)
+        glEnable(GL_DEPTH_TEST)
 
-        # self.screen_array = pygame.surfarray.pixels3d(self.screen)
-
-        self.main_state = 'run_state'
+        self.main_state = 'start_state'
         self.close_app = False
         self.clock = pygame.time.Clock()
-
-        self.image_set_path = 'sprites'
-        self.hand_image_name = 'hand_1.png'
-        self.hand_image_path = os.path.join(self.image_set_path, self.hand_image_name)
-        self.hand_sprite = pygame.image.load(self.hand_image_path)
-        self.hand_sprite = pygame.transform.scale(self.hand_sprite,
-                                                  (self.hand_sprite.get_width()//4,
-                                                   self.hand_sprite.get_height()//4))
 
         # --------------------------------------------------------------------------------------------------------------
         self.part_list = []
 
-        self.part_list.append(MasterPart(None,
-                                         (screen_size[0]//3, screen_size[1]),
-                                         None,
-                                         'master',
-                                         init_ref=[screen_size[0]//6, screen_size[1]//2, 0],
-                                         init_theta=0,
-                                         init_phi=np.pi/5,
-                                         init_R=75))
-
-        self.part_list.append(SlavePart(self.part_list[-1],
-                                        None,
-                                        (screen_size[0]//3, screen_size[1]),
-                                        None,
-                                        'slave',
-                                        init_phi=2*np.pi/3,
-                                        init_R=60))
-
-        self.part_list.append(SlavePart(self.part_list[-1],
-                                        None,
-                                        (screen_size[0]//3, screen_size[1]),
-                                        None,
-                                        'slave',
-                                        color=(255, 255, 0),
-                                        init_phi=np.pi/2,
-                                        init_R=40))
-
-        main_thread = threading.Thread(target=self.main_loop)
-        main_thread.start()
+        self.cube_1 = Cube(color=(0.2, 0.8, 1),
+                           origin=(0, 0, -5),
+                           offset=(0, 0, 0),
+                           axis=(0, 0, 1),
+                           angle=np.pi/2,
+                           size=0.2)
 
     def check_key_events(self):
         for event in pygame.event.get():
@@ -124,56 +94,17 @@ class PgScreen:
         quit()
 
     def screen_update(self):
-
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        print(self.main_state)
         if self.main_state == 'start_state':
             pass
 
         elif self.main_state == 'run_state':
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-
-            pygame.draw.rect(self.screen, (0, 255, 255), [0,
-                                                          0,
-                                                          self.screen_size[0]//3,
-                                                          self.screen_size[1]], 2)
-
-            pygame.draw.rect(self.screen, (0, 255, 255), [self.screen_size[0]//3,
-                                                          0,
-                                                          2*self.screen_size[0]//6,
-                                                          self.screen_size[1]], 2)
-
-            for part in self.part_list:
-                # ------------------------------------------------------------------------------------------------------
-                pygame.draw.circle(self.screen,
-                                   part.color,
-                                   [part.ref[0], 7*self.screen_size[1]//10 - part.ref[2]],
-                                   5)
-
-                pygame.draw.aaline(self.screen,
-                                   part.color,
-                                   [part.ref[0], 7*self.screen_size[1]//10 - part.ref[2]],
-                                   [part.x, 7*self.screen_size[1]//10 - part.z],
-                                   True)
-
-                pygame.draw.circle(self.screen,
-                                   (0, 255, 0),
-                                   [part.ref[0], 7*self.screen_size[1]//10 - part.ref[2]],
-                                   part.R,
-                                   1)
-
-                # ------------------------------------------------------------------------------------------------------
-                pygame.draw.circle(self.screen,
-                                   part.color,
-                                   [self.screen_size[0]//3+part.ref[1], 7*self.screen_size[1]//10 - part.ref[2]],
-                                   5)
-
-                pygame.draw.aaline(self.screen,
-                                   part.color,
-                                   [self.screen_size[0]//3+part.ref[1], 7*self.screen_size[1]//10 - part.ref[2]],
-                                   [self.screen_size[0]//3+part.y, 7*self.screen_size[1]//10 - part.z],
-                                   True)
+            self.cube_1.draw()
 
         pygame.display.flip()
 
 
 # ======================================================================================================================
-screen_1 = PgScreen(screen_size=(1200, 400))
+PgScreen(screen_size=(1200, 400)).main_loop()
+
