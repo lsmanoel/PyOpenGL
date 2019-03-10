@@ -11,6 +11,8 @@ class Solids:
                  origin=(0, 0, -5),
                  offset=(0, 0, 0),
                  axis=(0, 1, 0),
+                 angle=None,
+                 angle_degree=None,
                  size=None):
 
         self.vertices = vertices
@@ -21,8 +23,14 @@ class Solids:
         self._origin = np.asarray(origin, np.dtype('float64'))
         self._offset = np.asarray(offset, np.dtype('float64'))
         self._axis = np.asarray(axis, np.dtype('float64'))
-        self._theta_degree = 0
-        self._theta = 0
+
+        if angle is not None and angle_degree is None:
+            self.angle = angle
+        elif angle is None and angle_degree is not None:
+            self.angle_degree = angle_degree
+        else:
+            self._angle = 0
+            self._angle_degree = 0
 
     def draw(self):
         glPushMatrix()
@@ -58,7 +66,7 @@ class Solids:
         glTranslatef(self._origin[0], self._origin[1], self._origin[2])
 
     def _rotate(self):
-        glRotatef(self._theta_degree, self._axis[0], self._axis[1], self._axis[2])
+        glRotatef(self._angle_degree, self._axis[0], self._axis[1], self._axis[2])
 
     @property
     def color(self):
@@ -97,30 +105,30 @@ class Solids:
         self._axis = np.asarray(value, np.dtype('float64'))
 
     @property
-    def theta(self):
-        return self._theta
+    def angle(self):
+        return self._angle
 
-    @theta.setter
-    def theta(self, value):
-        self._theta = value
-        if self._theta > 2*np.pi:
-            self._theta += 2*np.pi
-        elif self._theta > 2*np.pi:
-            self._theta -= 2*np.pi
-        self._theta_degree = 180 * (value / np.pi)
+    @angle.setter
+    def angle(self, value):
+        self._angle = value
+        if self._angle > 2*np.pi:
+            self._angle += 2*np.pi
+        elif self._angle > 2*np.pi:
+            self._angle -= 2*np.pi
+        self._angle_degree = 180 * (value / np.pi)
 
     @property
-    def theta_degree(self):
-        return self._theta_degree
+    def angle_degree(self):
+        return self._angle_degree
 
-    @theta_degree.setter
-    def theta_degree(self, value):
-        self._theta_degree = value
-        if self._theta_degree < 0:
-            self._theta_degree += 360
-        elif self._theta_degree > 360:
-            self._theta_degree -= 360
-        self._theta = np.pi * (value / 180)
+    @angle_degree.setter
+    def angle_degree(self, value):
+        self._angle_degree = value
+        if self._angle_degree < 0:
+            self._angle_degree += 360
+        elif self._angle_degree > 360:
+            self._angle_degree -= 360
+        self._angle = np.pi * (value / 180)
 
 
 class Pyramid(Solids):
@@ -129,8 +137,8 @@ class Pyramid(Solids):
                  origin=(0, 0, -5),  # (x, y, z)
                  offset=(0, 0, 0),  # (x, y, z)
                  axis=(0, 1, 0),  # (x, y, z)
-                 theta=None,
-                 theta_degree=None,
+                 angle=None,
+                 angle_degree=None,
                  size=(0.5, 0.3, 0.5)):  # size = (x, y, z)
 
         vertices = np.array([[-size[0]/2+offset[0], -size[1]/2+offset[1], +size[2]/2+offset[2]],  # 0
@@ -180,15 +188,9 @@ class Pyramid(Solids):
                          color=color,
                          origin=origin,
                          axis=axis,
+                         angle=angle,
+                         angle_degree=angle_degree,
                          size=size)
-
-        if theta is not None and theta_degree is None:
-            self.theta = theta
-        elif theta is None and theta_degree is not None:
-            self.theta_degree = theta_degree
-        else:
-            self.theta = 0
-            self.theta_degree = 0
 
 
 class Cube(Solids):
@@ -197,8 +199,8 @@ class Cube(Solids):
                  origin=(0, 0, -5),  # (x, y, z)
                  offset=(0, 0, 0),  # (x, y, z)
                  axis=(0, 1, 0),  # (x, y, z)
-                 theta=None,
-                 theta_degree=None,
+                 angle=None,
+                 angle_degree=None,
                  size=0.6):
 
         vertices = np.array([[-size/2+offset[0], -size/2+offset[1], +size/2+offset[2]],
@@ -251,15 +253,9 @@ class Cube(Solids):
                          origin=origin,
                          offset=offset,
                          axis=axis,
+                         angle=angle,
+                         angle_degree=angle_degree,
                          size=size)
-
-        if theta is not None and theta_degree is None:
-            self.theta = theta
-        elif theta is None and theta_degree is not None:
-            self.theta_degree = theta_degree
-        else:
-            self.theta = 0
-            self.theta_degree = 0
 
 
 class Parallelepiped(Solids):
@@ -268,8 +264,8 @@ class Parallelepiped(Solids):
                  origin=(0, 0, -5),  # origin = (x, y, z)
                  offset=(0, 0, 0),  # (x, y, z)
                  axis=(0, 1, 0),  # axis = (x, y, z)
-                 theta=None,
-                 theta_degree=None,
+                 angle=None,
+                 angle_degree=None,
                  alpha=np.pi/2,
                  size=(0.5, 0.7, 0.2)):  # size = (x, y, z)
 
@@ -334,15 +330,9 @@ class Parallelepiped(Solids):
                          origin=origin,
                          offset=offset,
                          axis=axis,
+                         angle=angle,
+                         angle_degree=angle_degree,
                          size=size)
-
-        if theta is not None and theta_degree is None:
-            self.theta = theta
-        elif theta is None and theta_degree is not None:
-            self.theta_degree = theta_degree
-        else:
-            self.theta = 0
-            self.theta_degree = 0
 
 
 class Trapezoid(Solids):
@@ -351,8 +341,8 @@ class Trapezoid(Solids):
                  origin=(0, 0, -5),  # origin = (x, y, z)
                  offset=(0, 0, 0),  # (x, y, z)
                  axis=(0, 1, 0),  # axis = (x, y, z)
-                 theta=None,
-                 theta_degree=None,
+                 angle=None,
+                 angle_degree=None,
                  size=(0.5, 0.5, 0.2, 0.3, 0.2, 0.3)):  # size = (x1_b, x2_b, x1_t, x2_t, y, z)
 
         vertices = np.array([[-size[0]/2+offset[0], -size[4]/2+offset[1], +size[5]/2+offset[2]],   # 0
@@ -409,16 +399,10 @@ class Trapezoid(Solids):
                          color=color,
                          origin=origin,
                          offset=offset,
+                         angle=angle,
+                         angle_degree=angle_degree,
                          axis=axis,
                          size=size)
-
-        if theta is not None and theta_degree is None:
-            self.theta = theta
-        elif theta is None and theta_degree is not None:
-            self.theta_degree = theta_degree
-        else:
-            self.theta = 0
-            self.theta_degree = 0
 
 
 class PyramidTrunk(Solids):
@@ -427,8 +411,8 @@ class PyramidTrunk(Solids):
                  origin=(0, 0, -5),  # origin = (x, y, z)
                  offset=(0, 0, 0),  # (x, y, z)
                  axis=(0, 1, 0),  # axis = (x, y, z)
-                 theta=None,
-                 theta_degree=None,
+                 angle=None,
+                 angle_degree=None,
                  size=(0.5, 0.3, 0.5, 0.3, 0.2)):  # size = (x, y, z, x, y)
 
         vertices = np.array([[-size[0]/2+offset[0], -size[1]/2+offset[1], +size[2]/2+offset[2]],   # 0
@@ -485,15 +469,9 @@ class PyramidTrunk(Solids):
                          origin=origin,
                          offset=offset,
                          axis=axis,
+                         angle=angle,
+                         angle_degree=angle_degree,
                          size=size)
-
-        if theta is not None and theta_degree is None:
-            self.theta = theta
-        elif theta is None and theta_degree is not None:
-            self.theta_degree = theta_degree
-        else:
-            self.theta = 0
-            self.theta_degree = 0
 
 
 class Hexagon(Solids):
@@ -502,8 +480,8 @@ class Hexagon(Solids):
                  origin=(0, 0, -5),  # origin = (x, y, z)
                  offset=(0, 0, 0),  # (x, y, z)
                  axis=(0, 1, 0),  # axis = (x, y, z)
-                 theta=None,
-                 theta_degree=None,
+                 angle=None,
+                 angle_degree=None,
                  size=(0.5, 0.2)):  # size = (size, y)
 
         higher_hexagon = size[0]*np.sin(np.pi / 3)
@@ -585,15 +563,9 @@ class Hexagon(Solids):
                          origin=origin,
                          offset=offset,
                          axis=axis,
+                         angle=angle,
+                         angle_degree=angle_degree,
                          size=size)
-
-        if theta is not None and theta_degree is None:
-            self.theta = theta
-        elif theta is None and theta_degree is not None:
-            self.theta_degree = theta_degree
-        else:
-            self.theta = 0
-            self.theta_degree = 0
 
 
 class HexagonAxis(Solids):
@@ -602,8 +574,8 @@ class HexagonAxis(Solids):
                  origin=(0, 0, -5),  # origin = (x, y, z)
                  offset=(0, 0, 0),  # (x, y, z)
                  axis=(0, 1, 0),  # axis = (x, y, z)
-                 theta=None,
-                 theta_degree=None,
+                 angle=None,
+                 angle_degree=None,
                  size=(1, 1.5)):  # size = (size, x)
 
         higher_hexagon = size[0]*np.sin(np.pi / 3)
@@ -685,13 +657,98 @@ class HexagonAxis(Solids):
                          color=color,
                          origin=origin,
                          offset=offset,
+                         angle=angle,
+                         angle_degree=angle_degree,
                          axis=axis,
                          size=size)
 
-        if theta is not None and theta_degree is None:
-            self.theta = theta
-        elif theta is None and theta_degree is not None:
-            self.theta_degree = theta_degree
-        else:
-            self.theta = 0
-            self.theta_degree = 0
+
+class SolidsGroup(Solids):
+    def __init__(self,
+                 solids_list,
+                 origin=(0, 0, -5),
+                 offset=(0, 0, 0),
+                 axis=(0, 1, 0),
+                 angle=None,
+                 angle_degree=None):
+
+        self.solids_list = solids_list
+        self._origin = np.asarray(origin, np.dtype('float64'))
+        self._offset = np.asarray(offset, np.dtype('float64'))
+        self._axis = np.asarray(axis, np.dtype('float64'))
+        self._angle_degree = angle_degree
+        self._angle = angle
+
+        super().__init__(origin=origin,
+                         offset=offset,
+                         axis=axis,
+                         angle=angle,
+                         angle_degree=angle_degree)
+
+    def draw(self):
+        for solid in self.solids_list:
+            solid.draw()
+
+    @property
+    def origin(self):
+        return self._origin
+
+    @origin.setter
+    def origin(self, value):
+        self._origin = np.asarray(value, np.dtype('float64'))
+        for solid in self.solids_list:
+            solid.origin = self._origin
+
+    @property
+    def offset(self):
+        return self._offset
+
+    @offset.setter
+    def offset(self, value):
+        self._offset = np.asarray(value, np.dtype('float64'))
+        for solid in self.solids_list:
+            solid.offset = np.asarray(self._offset)
+
+    @property
+    def axis(self):
+        return self._axis
+
+    @axis.setter
+    def axis(self, value):
+        self._axis = np.asarray(value, np.dtype('float64'))
+        for solid in self.solids_list:
+            solid.axis = np.asarray(self._axis)
+
+    @property
+    def angle(self):
+        return self._angle
+
+    @angle.setter
+    def angle(self, value):
+        self._angle = value
+        if self._angle > 2*np.pi:
+            self._angle += 2*np.pi
+        elif self._angle > 2*np.pi:
+            self._angle -= 2*np.pi
+
+        self._angle_degree = 180 * (value / np.pi)
+
+        for solid in self.solids_list:
+            solid.angle = self._angle
+
+    @property
+    def angle_degree(self):
+        return self._angle_degree
+
+    @angle_degree.setter
+    def angle_degree(self, value):
+        self._angle_degree = value
+        if self._angle_degree < 0:
+            self._angle_degree += 360
+        elif self._angle_degree > 360:
+            self._angle_degree -= 360
+
+        self._angle = np.pi * (value / 180)
+
+        for solid in self.solids_list:
+            solid.angle_degree = self._angle_degree
