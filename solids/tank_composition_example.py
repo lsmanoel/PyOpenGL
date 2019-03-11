@@ -12,7 +12,7 @@ class Tank(SolidsGroup):
                  origin=(0, 0, -5),
                  offset=(0, 0, 0),
                  axis=(0, 1, 0),
-                 angle=np.pi/2):
+                 theta=np.pi/2):
 
         self.solids_list = []
 
@@ -20,7 +20,7 @@ class Tank(SolidsGroup):
                             origin=origin,
                             offset=(0, 0.1, 0.45),
                             axis=axis,
-                            angle=angle,
+                            theta=theta,
                             size=(1.6, 1.6, 1.7, 1.7, 0.2, 0.25))
         self.solids_list.append(track_1)
 
@@ -28,7 +28,7 @@ class Tank(SolidsGroup):
                             origin=origin,
                             offset=(0, 0.1, -0.45),
                             axis=axis,
-                            angle=angle,
+                            theta=theta,
                             size=(1.6, 1.6, 1.7, 1.7, 0.2, 0.25))
         self.solids_list.append(track_2)
 
@@ -36,7 +36,7 @@ class Tank(SolidsGroup):
                               origin=origin,
                               offset=(0, 0.1, 0),
                               axis=axis,
-                              angle=angle,
+                              theta=theta,
                               size=(1.5, 1.5, 1.7, 1.6, 0.2, 0.6))
         self.solids_list.append(chassis_1)
 
@@ -44,7 +44,7 @@ class Tank(SolidsGroup):
                               origin=origin,
                               offset=(0, self.solids_list[-1].size[4]/2+self.solids_list[-1].offset[1] + 0.05, 0),
                               axis=axis,
-                              angle=angle,
+                              theta=theta,
                               size=(1.7, 1.6, 1.3, 1.6, 0.1, 1))
         self.solids_list.append(chassis_2)
 
@@ -52,7 +52,7 @@ class Tank(SolidsGroup):
                               origin=origin,
                               offset=(0, self.solids_list[-1].size[4]/2+self.solids_list[-1].offset[1] + 0.05, 0),
                               axis=axis,
-                              angle=angle,
+                              theta=theta,
                               size=(1.2, 1.6, 1.2, 1.3, 0.1, 1))
         self.solids_list.append(chassis_3)
 
@@ -60,7 +60,7 @@ class Tank(SolidsGroup):
                               origin=origin,
                               offset=(0, self.solids_list[-1].size[4]/2+self.solids_list[-1].offset[1] + 0.0125, 0),
                               axis=axis,
-                              angle=angle,
+                              theta=theta,
                               size=(1.2, 1.3, 1, 1, 0.025, 1))
         self.solids_list.append(chassis_4)
 
@@ -68,7 +68,7 @@ class Tank(SolidsGroup):
                            origin=origin,
                            offset=(0, self.solids_list[-1].size[4]/2+self.solids_list[-1].offset[1] + 0.025, 0),
                            axis=axis,
-                           angle=angle,
+                           theta=theta,
                            size=(0.8, 0.05))
         self.solids_list.append(turret_1)
 
@@ -76,7 +76,7 @@ class Tank(SolidsGroup):
                            origin=origin,
                            offset=(0, self.solids_list[-1].size[1]/2+self.solids_list[-1].offset[1] + 0.05, 0),
                            axis=axis,
-                           angle=angle,
+                           theta=theta,
                            size=(1, 0.1))
         self.solids_list.append(turret_2)
 
@@ -84,7 +84,7 @@ class Tank(SolidsGroup):
                            origin=origin,
                            offset=(0, self.solids_list[-1].size[1]/2+self.solids_list[-1].offset[1] + 0.025, 0),
                            axis=axis,
-                           angle=angle,
+                           theta=theta,
                            size=(0.76, 0.05))
         self.solids_list.append(turret_3)
 
@@ -92,7 +92,7 @@ class Tank(SolidsGroup):
                            origin=origin,
                            offset=(0, self.solids_list[-1].size[1]/2+self.solids_list[-1].offset[1] + 0.0125, 0),
                            axis=axis,
-                           angle=angle,
+                           theta=theta,
                            size=(0.7, 0.025))
         self.solids_list.append(turret_4)
 
@@ -100,7 +100,7 @@ class Tank(SolidsGroup):
                                origin=origin,
                                offset=(-1, self.solids_list[-1].size[1]/2+self.solids_list[-1].offset[1] - 0.1, 0),
                                axis=axis,
-                               angle=angle,
+                               theta=theta,
                                size=(0.1, 1.6))
         self.solids_list.append(cannon_1)
 
@@ -108,7 +108,7 @@ class Tank(SolidsGroup):
                          origin=origin,
                          offset=offset,
                          axis=axis,
-                         angle=angle)
+                         theta=theta)
 
 
 def main():
@@ -121,7 +121,7 @@ def main():
     glEnable(GL_DEPTH_TEST)
 
     tank_1 = Tank(origin=(-2, 0, -5),
-                  axis=(0, 0, 1))
+                  axis=(0, -1, 0))
     i = 0
 
     while True:
@@ -133,7 +133,7 @@ def main():
 
         tank_1.draw()
 
-        tank_1.angle += np.pi/20
+        tank_1.theta += np.pi/20
         if i < 40:
             tank_1.origin += np.asarray([0.1, 0.0, 0.0])
             i += 1

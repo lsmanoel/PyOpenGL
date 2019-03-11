@@ -35,12 +35,10 @@ class PgScreen:
         # --------------------------------------------------------------------------------------------------------------
         self.part_list = []
 
-        self.cube_1 = Cube(color=(0.2, 0.8, 1),
-                           origin=(0, 0, -5),
-                           offset=(0, 0, 0),
-                           axis=(0, 0, 1),
-                           angle=np.pi/2,
-                           size=0.2)
+        self.part_list.append(MasterPart(origin=(0, 0, 0),
+                                         theta=0,
+                                         phi=np.pi/2,
+                                         length=1))
 
     def check_key_events(self):
         for event in pygame.event.get():
@@ -55,28 +53,25 @@ class PgScreen:
 
         elif self.main_state == 'run_state':
             pressed = pygame.key.get_pressed()
+
             if pressed[pygame.K_UP]:
-                self.part_list[1].master.phi -= 0.1
-                self.part_list[1].update_ref()
-                self.part_list[2].update_ref()
-            if pressed[pygame.K_DOWN]:
-                self.part_list[1].master.phi += 0.1
-                self.part_list[1].update_ref()
-                self.part_list[2].update_ref()
+                self.part_list[0].phi_degree += 5
+            elif pressed[pygame.K_DOWN]:
+                self.part_list[0].phi_degree -= 5
+
             if pressed[pygame.K_LEFT]:
-                self.part_list[1].master.theta -= 0.1
-                self.part_list[1].update_ref()
-                self.part_list[2].update_ref()
-            if pressed[pygame.K_RIGHT]:
-                self.part_list[1].master.theta += 0.1
-                self.part_list[1].update_ref()
-                self.part_list[2].update_ref()
+                self.part_list[0].theta_degree += 5
+            elif pressed[pygame.K_RIGHT]:
+                self.part_list[0].theta_degree -= 5
+
             if pressed[pygame.K_w]:
-                self.part_list[1].phi -= 0.1
-                self.part_list[2].update_ref()
+                self.part_list[0].origin += np.array([0.1, 0, 0])
             if pressed[pygame.K_s]:
-                self.part_list[1].phi += 0.1
-                self.part_list[2].update_ref()
+                self.part_list[0].origin -= np.array([0.1, 0, 0])
+            if pressed[pygame.K_d]:
+                self.part_list[0].origin += np.array([0, 0, 0.1])
+            if pressed[pygame.K_a]:
+                self.part_list[0].origin -= np.array([0, 0, 0.1])
 
         elif self.main_state == 'restart_state':
             os.execl(sys.executable, sys.executable, *sys.argv)
@@ -95,12 +90,12 @@ class PgScreen:
 
     def screen_update(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-        print(self.main_state)
         if self.main_state == 'start_state':
             pass
 
         elif self.main_state == 'run_state':
-            self.cube_1.draw()
+            for part in self.part_list:
+                part.draw()
 
         pygame.display.flip()
 

@@ -12,7 +12,7 @@ class Orbit(SolidsGroup):
                  origin=(0, 0, -5),
                  offset=(0, 0, 0),
                  axis=(0, 0, 1),
-                 angle=np.pi/2):
+                 theta=np.pi/2):
 
         self.solids_list = []
 
@@ -20,7 +20,7 @@ class Orbit(SolidsGroup):
                       origin=origin,
                       offset=offset,
                       axis=axis,
-                      angle=angle,
+                      theta=theta,
                       size=0.2)
         self.solids_list.append(cube_1)
 
@@ -28,7 +28,7 @@ class Orbit(SolidsGroup):
                       origin=origin,
                       offset=(0.5+offset[0], 0+offset[1], 0+offset[2]),
                       axis=axis,
-                      angle=angle,
+                      theta=theta,
                       size=0.18)
         self.solids_list.append(cube_2)
 
@@ -36,7 +36,7 @@ class Orbit(SolidsGroup):
                       origin=origin,
                       offset=(1+offset[0], 0+offset[1], 0+offset[2]),
                       axis=axis,
-                      angle=angle,
+                      theta=theta,
                       size=0.16)
         self.solids_list.append(cube_3)
 
@@ -44,7 +44,7 @@ class Orbit(SolidsGroup):
                       origin=origin,
                       offset=(1.5+offset[0], 0+offset[1], 0+offset[2]),
                       axis=axis,
-                      angle=angle,
+                      theta=theta,
                       size=0.14)
         self.solids_list.append(cube_4)
 
@@ -52,7 +52,7 @@ class Orbit(SolidsGroup):
                       origin=origin,
                       offset=(2+offset[0], 0+offset[1], 0+offset[2]),
                       axis=axis,
-                      angle=angle,
+                      theta=theta,
                       size=0.12)
         self.solids_list.append(cube_5)
 
@@ -60,7 +60,7 @@ class Orbit(SolidsGroup):
                          origin=origin,
                          offset=offset,
                          axis=axis,
-                         angle=angle)
+                         theta=theta)
 
 
 def main():
@@ -77,47 +77,47 @@ def main():
     orbit_list.append(Orbit(origin=(0, 0, -5),
                             offset=(1, 0, 0),
                             axis=(0, 1, 1),
-                            angle=np.pi/2))
+                            theta=np.pi/2))
 
     orbit_list.append(Orbit(origin=(0, 0, -5),
                             offset=(1, 0, 0),
                             axis=(1, 1, 0),
-                            angle=np.pi/2))
+                            theta=np.pi/2))
 
     orbit_list.append(Orbit(origin=(0, 0, -5),
                             offset=(1, 0, 0),
                             axis=(1, 0, 1),
-                            angle=np.pi/2))
+                            theta=np.pi/2))
 
     orbit_list.append(Orbit(origin=(0, 0, -5),
                             offset=(1, 0, 0),
                             axis=(0, -1, -1),
-                            angle=np.pi/2))
+                            theta=np.pi/2))
 
     orbit_list.append(Orbit(origin=(0, 0, -5),
                             offset=(1, 0, 0),
                             axis=(-1, -1, 0),
-                            angle=np.pi/2))
+                            theta=np.pi/2))
 
     orbit_list.append(Orbit(origin=(0, 0, -5),
                             offset=(1, 0, 0),
                             axis=(-1, 0, -1),
-                            angle=np.pi/2))
+                            theta=np.pi/2))
 
     orbit_list.append(Orbit(origin=(0, 0, -5),
                             offset=(1, 0, 0),
                             axis=(0, -1, 1),
-                            angle=np.pi/2))
+                            theta=np.pi/2))
 
     orbit_list.append(Orbit(origin=(0, 0, -5),
                             offset=(1, 0, 0),
                             axis=(-1, 1, 0),
-                            angle=np.pi/2))
+                            theta=np.pi/2))
 
     orbit_list.append(Orbit(origin=(0, 0, -5),
                             offset=(1, 0, 0),
                             axis=(-1, 0, 1),
-                            angle=np.pi/2))
+                            theta=np.pi/2))
 
     while True:
         for event in pygame.event.get():
@@ -127,7 +127,7 @@ def main():
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         for i, orbit in enumerate(orbit_list):
-            orbit.angle += np.pi/(20+i)
+            orbit.theta += np.pi/(20+i)
             orbit.draw()
 
         pygame.display.flip()

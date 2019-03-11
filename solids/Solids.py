@@ -11,8 +11,8 @@ class Solids:
                  origin=(0, 0, -5),
                  offset=(0, 0, 0),
                  axis=(0, 1, 0),
-                 angle=None,
-                 angle_degree=None,
+                 theta=None,
+                 theta_degree=None,
                  size=None):
 
         self.vertices = vertices
@@ -24,13 +24,13 @@ class Solids:
         self._offset = np.asarray(offset, np.dtype('float64'))
         self._axis = np.asarray(axis, np.dtype('float64'))
 
-        if angle is not None and angle_degree is None:
-            self.angle = angle
-        elif angle is None and angle_degree is not None:
-            self.angle_degree = angle_degree
+        if theta is not None and theta_degree is None:
+            self.theta = theta
+        elif theta is None and theta_degree is not None:
+            self.theta_degree = theta_degree
         else:
-            self._angle = 0
-            self._angle_degree = 0
+            self._theta = 0
+            self._theta_degree = 0
 
     def draw(self):
         glPushMatrix()
@@ -66,7 +66,7 @@ class Solids:
         glTranslatef(self._origin[0], self._origin[1], self._origin[2])
 
     def _rotate(self):
-        glRotatef(self._angle_degree, self._axis[0], self._axis[1], self._axis[2])
+        glRotatef(self._theta_degree, self._axis[0], self._axis[1], self._axis[2])
 
     @property
     def color(self):
@@ -105,30 +105,30 @@ class Solids:
         self._axis = np.asarray(value, np.dtype('float64'))
 
     @property
-    def angle(self):
-        return self._angle
+    def theta(self):
+        return self._theta
 
-    @angle.setter
-    def angle(self, value):
-        self._angle = value
-        if self._angle > 2*np.pi:
-            self._angle += 2*np.pi
-        elif self._angle > 2*np.pi:
-            self._angle -= 2*np.pi
-        self._angle_degree = 180 * (value / np.pi)
+    @theta.setter
+    def theta(self, value):
+        self._theta = value
+        if self._theta < 0:
+            self._theta += 2*np.pi
+        elif self._theta > 2*np.pi:
+            self._theta -= 2*np.pi
+        self._theta_degree = 180 * (value / np.pi)
 
     @property
-    def angle_degree(self):
-        return self._angle_degree
+    def theta_degree(self):
+        return self._theta_degree
 
-    @angle_degree.setter
-    def angle_degree(self, value):
-        self._angle_degree = value
-        if self._angle_degree < 0:
-            self._angle_degree += 360
-        elif self._angle_degree > 360:
-            self._angle_degree -= 360
-        self._angle = np.pi * (value / 180)
+    @theta_degree.setter
+    def theta_degree(self, value):
+        self._theta_degree = value
+        if self._theta_degree < 0:
+            self._theta_degree += 360
+        elif self._theta_degree > 360:
+            self._theta_degree -= 360
+        self._theta = np.pi * (value / 180)
 
 
 class Pyramid(Solids):
@@ -137,8 +137,8 @@ class Pyramid(Solids):
                  origin=(0, 0, -5),  # (x, y, z)
                  offset=(0, 0, 0),  # (x, y, z)
                  axis=(0, 1, 0),  # (x, y, z)
-                 angle=None,
-                 angle_degree=None,
+                 theta=None,
+                 theta_degree=None,
                  size=(0.5, 0.3, 0.5)):  # size = (x, y, z)
 
         vertices = np.array([[-size[0]/2+offset[0], -size[1]/2+offset[1], +size[2]/2+offset[2]],  # 0
@@ -188,8 +188,8 @@ class Pyramid(Solids):
                          color=color,
                          origin=origin,
                          axis=axis,
-                         angle=angle,
-                         angle_degree=angle_degree,
+                         theta=theta,
+                         theta_degree=theta_degree,
                          size=size)
 
 
@@ -199,8 +199,8 @@ class Cube(Solids):
                  origin=(0, 0, -5),  # (x, y, z)
                  offset=(0, 0, 0),  # (x, y, z)
                  axis=(0, 1, 0),  # (x, y, z)
-                 angle=None,
-                 angle_degree=None,
+                 theta=None,
+                 theta_degree=None,
                  size=0.6):
 
         vertices = np.array([[-size/2+offset[0], -size/2+offset[1], +size/2+offset[2]],
@@ -253,8 +253,8 @@ class Cube(Solids):
                          origin=origin,
                          offset=offset,
                          axis=axis,
-                         angle=angle,
-                         angle_degree=angle_degree,
+                         theta=theta,
+                         theta_degree=theta_degree,
                          size=size)
 
 
@@ -264,8 +264,8 @@ class Parallelepiped(Solids):
                  origin=(0, 0, -5),  # origin = (x, y, z)
                  offset=(0, 0, 0),  # (x, y, z)
                  axis=(0, 1, 0),  # axis = (x, y, z)
-                 angle=None,
-                 angle_degree=None,
+                 theta=None,
+                 theta_degree=None,
                  alpha=np.pi/2,
                  size=(0.5, 0.7, 0.2)):  # size = (x, y, z)
 
@@ -330,8 +330,8 @@ class Parallelepiped(Solids):
                          origin=origin,
                          offset=offset,
                          axis=axis,
-                         angle=angle,
-                         angle_degree=angle_degree,
+                         theta=theta,
+                         theta_degree=theta_degree,
                          size=size)
 
 
@@ -341,8 +341,8 @@ class Trapezoid(Solids):
                  origin=(0, 0, -5),  # origin = (x, y, z)
                  offset=(0, 0, 0),  # (x, y, z)
                  axis=(0, 1, 0),  # axis = (x, y, z)
-                 angle=None,
-                 angle_degree=None,
+                 theta=None,
+                 theta_degree=None,
                  size=(0.5, 0.5, 0.2, 0.3, 0.2, 0.3)):  # size = (x1_b, x2_b, x1_t, x2_t, y, z)
 
         vertices = np.array([[-size[0]/2+offset[0], -size[4]/2+offset[1], +size[5]/2+offset[2]],   # 0
@@ -399,8 +399,8 @@ class Trapezoid(Solids):
                          color=color,
                          origin=origin,
                          offset=offset,
-                         angle=angle,
-                         angle_degree=angle_degree,
+                         theta=theta,
+                         theta_degree=theta_degree,
                          axis=axis,
                          size=size)
 
@@ -411,8 +411,8 @@ class PyramidTrunk(Solids):
                  origin=(0, 0, -5),  # origin = (x, y, z)
                  offset=(0, 0, 0),  # (x, y, z)
                  axis=(0, 1, 0),  # axis = (x, y, z)
-                 angle=None,
-                 angle_degree=None,
+                 theta=None,
+                 theta_degree=None,
                  size=(0.5, 0.3, 0.5, 0.3, 0.2)):  # size = (x, y, z, x, y)
 
         vertices = np.array([[-size[0]/2+offset[0], -size[1]/2+offset[1], +size[2]/2+offset[2]],   # 0
@@ -469,8 +469,8 @@ class PyramidTrunk(Solids):
                          origin=origin,
                          offset=offset,
                          axis=axis,
-                         angle=angle,
-                         angle_degree=angle_degree,
+                         theta=theta,
+                         theta_degree=theta_degree,
                          size=size)
 
 
@@ -480,8 +480,8 @@ class Hexagon(Solids):
                  origin=(0, 0, -5),  # origin = (x, y, z)
                  offset=(0, 0, 0),  # (x, y, z)
                  axis=(0, 1, 0),  # axis = (x, y, z)
-                 angle=None,
-                 angle_degree=None,
+                 theta=None,
+                 theta_degree=None,
                  size=(0.5, 0.2)):  # size = (size, y)
 
         higher_hexagon = size[0]*np.sin(np.pi / 3)
@@ -563,8 +563,8 @@ class Hexagon(Solids):
                          origin=origin,
                          offset=offset,
                          axis=axis,
-                         angle=angle,
-                         angle_degree=angle_degree,
+                         theta=theta,
+                         theta_degree=theta_degree,
                          size=size)
 
 
@@ -574,19 +574,19 @@ class HexagonAxis(Solids):
                  origin=(0, 0, -5),  # origin = (x, y, z)
                  offset=(0, 0, 0),  # (x, y, z)
                  axis=(0, 1, 0),  # axis = (x, y, z)
-                 angle=None,
-                 angle_degree=None,
+                 theta=None,
+                 theta_degree=None,
                  size=(1, 1.5)):  # size = (size, x)
 
         higher_hexagon = size[0]*np.sin(np.pi / 3)
         side_hexagon = size[0]*np.cos(np.pi/3)
 
         '''
-
-            5____6___________________________4____7
-           /      \                         /      \
-          /        \                                \
-       9 /          \ 10____________________________ \
+                               origin 
+            5____6_______________ | _________4____7
+           /      \               |         /      \
+          /        \             \|/                \
+       9 /          \ 10__________o_________________ \
          \          /                    8\        11/
           \        /                                /
            \_____ /________________________ \_____ /
@@ -604,22 +604,6 @@ class HexagonAxis(Solids):
                              [+size[1]/2+offset[0], +offset[1], -size[0]/2+offset[2]],           # 9
                              [+size[1]/2+offset[0], +offset[1], +size[0]/2+offset[2]],             # 10
                              [-size[1]/2+offset[0], +offset[1], +size[0]/2+offset[2]]])           # 11
-
-        '''
-               5 _______________6                   5__________6
-               /|               /|                  /|        |\
-              /                / |                 /            \ ______-z
-          y__/  |__          _/  |__-z       y__ 9/  |4__   __|7 \ 10
-           9/| 4/          10/  7/               |\  /        \  /|
-           / |8             /   /                | \            / |
-          /________________/   /__0              |8 \__________/  | __0
-         1|               2|11/                   \  1        |2 / 11
-          |                | /                 /   \ |        | /
-         0|_______________3|/                 /     \|________|/
-         /                                   /       0        3
-        /                                   /
-      -x                                  -x
-        '''
 
         edges = np.array([[0, 1],
                           [0, 3],
@@ -657,10 +641,206 @@ class HexagonAxis(Solids):
                          color=color,
                          origin=origin,
                          offset=offset,
-                         angle=angle,
-                         angle_degree=angle_degree,
+                         theta=theta,
+                         theta_degree=theta_degree,
                          axis=axis,
                          size=size)
+
+
+class HexagonStalk(Solids):
+    def __init__(self,
+                 color=(1, 1, 1),
+                 origin=(0, 0, -5),  # origin = (x, y, z)
+                 offset=(0, 0, 0),  # (x, y, z)
+                 axis=(0, 1, 0),  # axis = (x, y, z)
+                 theta=None,
+                 theta_degree=None,
+                 size=(1, 1.5)):  # size = (size, x)
+
+        higher_hexagon = size[0]*np.sin(np.pi / 3)
+        side_hexagon = size[0]*np.cos(np.pi/3)
+
+        '''
+               |------------- size[1] -------------|
+            7__|_4____________________________6____5
+           /   |  \                          /      \
+          /    |   \                                 \
+       11/    \|/   \ 8______________________________ \
+         \  origin  /                    10\         9/
+          \        /                                 /
+           \______/__________________________\______/
+            3    0                            2     1
+        '''
+        vertices = np.array([[offset[0], +higher_hexagon/2+offset[1], -side_hexagon/2+offset[2]],    # 0
+                             [+size[1]+offset[0], +higher_hexagon/2+offset[1], -side_hexagon/2+offset[2]],    # 1
+                             [+size[1]+offset[0], +higher_hexagon/2+offset[1], +side_hexagon/2+offset[2]],    # 2
+                             [offset[0], +higher_hexagon/2+offset[1], +side_hexagon/2+offset[2]],    # 3
+                             [offset[0], -higher_hexagon/2+offset[1], -side_hexagon/2+offset[2]],  # 4
+                             [size[1]+offset[0], -higher_hexagon/2+offset[1], -side_hexagon/2+offset[2]],   # 5
+                             [size[1]+offset[0], -higher_hexagon/2+offset[1], +side_hexagon/2+offset[2]],    # 6
+                             [offset[0], -higher_hexagon/2+offset[1], +side_hexagon/2+offset[2]],   # 7
+                             [offset[0], +offset[1], -size[0]/2+offset[2]],           # 8
+                             [size[1]+offset[0], +offset[1], -size[0]/2+offset[2]],           # 9
+                             [size[1]+offset[0], +offset[1], +size[0]/2+offset[2]],             # 10
+                             [offset[0], +offset[1], +size[0]/2+offset[2]]])           # 11
+
+        edges = np.array([[0, 1],
+                          [0, 3],
+                          [0, 8],
+                          [1, 2],
+                          [1, 9],
+                          [2, 3],
+                          [2, 10],
+                          [3, 11],
+                          [10, 11],
+                          [10, 6],
+                          [11, 7],
+                          [6, 7],
+                          [6, 5],
+                          [7, 4],
+                          [4, 5],
+                          [4, 8],
+                          [8, 9],
+                          [5, 9]])
+
+        surfaces = ((0, 1, 2, 3),
+                    (3, 2, 10, 11),
+                    (10, 11, 7, 6),
+                    (6, 7, 4, 5),
+                    (4, 5, 9, 9),
+                    (0, 1, 9, 8),
+                    (1, 2, 10, 6),
+                    (1, 6, 5, 9),
+                    (0, 3, 11, 7),
+                    (0, 7, 4, 8))
+
+        super().__init__(vertices=vertices,
+                         edges=edges,
+                         surfaces=surfaces,
+                         color=color,
+                         origin=origin,
+                         offset=offset,
+                         theta=theta,
+                         theta_degree=theta_degree,
+                         axis=axis,
+                         size=size)
+
+
+class Stalk(Solids):
+    def __init__(self,
+                 color=(1, 1, 1),
+                 origin=(0, 0, -5),  # origin = (x, y, z)
+                 offset=(0, 0, 0),  # (x, y, z)
+                 axis=(0, 1, 0),  # axis = (x, y, z)
+                 theta=None,
+                 theta_degree=None,
+                 thickness=0.2,
+                 xyz=(1, 1, 1)):
+
+        """
+               5__________________________________________6
+               /                                         /|
+              /                                         / |
+        y__ 1/________________________________________2/  |
+            |   |__                                   |    __-z
+            |   4                                     |   7
+        0-- |  /                                      |  /__0
+            | /                                       | /
+        -y__0__________________________________________3__z
+            /                                         /
+          -x                                         x
+
+
+
+
+
+
+               5__________________________________________6
+               /                                         /|
+              /                                         / |
+        y__ 1/________________________________________2/  |
+            |   |__                                   |    __-z
+            |   4                                     |   7
+        0-- |  /                                      |  /__0
+            | /                                       | /
+        -y__0__________________________________________3__z
+            /                                         /
+          -x                                         x
+        """
+        vertices = np.array([[offset[0], -thickness/2+xyz[1]+offset[1], +thickness/2+xyz[2]+offset[2]],
+                             [offset[0], +thickness/2+xyz[1]+offset[1], +thickness/2+xyz[2]+offset[2]],
+                             [xyz[0]+offset[0], +thickness/2+xyz[1]+offset[1], +thickness/2+xyz[2]+offset[2]],
+                             [xyz[0]+offset[0], -thickness/2+xyz[1]+offset[1], +thickness/2+xyz[2]+offset[2]],
+                             [offset[0], -thickness/2+xyz[1]+offset[1], -thickness/2+xyz[2]+offset[2]],
+                             [offset[0], +thickness/2+xyz[1]+offset[1], -thickness/2+xyz[2]+offset[2]],
+                             [xyz[0]+offset[0], +thickness/2+xyz[1]+offset[1], -thickness/2+xyz[2]+offset[2]],
+                             [xyz[0]+offset[0], -thickness/2+xyz[1]+offset[1], -thickness/2+xyz[2]+offset[2]]])
+
+        edges = np.array([[0, 1],
+                          [0, 3],
+                          [0, 4],
+                          [2, 1],
+                          [2, 3],
+                          [2, 6],
+                          [5, 1],
+                          [5, 4],
+                          [5, 6],
+                          [7, 3],
+                          [7, 4],
+                          [7, 6]])
+
+        surfaces = ((0, 1, 2, 3),
+                    (3, 2, 6, 7),
+                    (7, 6, 5, 4),
+                    (4, 5, 1, 0),
+                    (1, 5, 6, 2),
+                    (4, 0, 3, 7))
+
+        super().__init__(vertices=vertices,
+                         edges=edges,
+                         surfaces=surfaces,
+                         color=color,
+                         origin=origin,
+                         offset=offset,
+                         theta=theta,
+                         theta_degree=theta_degree,
+                         axis=axis,
+                         size=thickness)
+
+        self._xyz = xyz
+        self.thickness = thickness
+
+    @property
+    def xyz(self):
+        return self._xyz
+
+    @xyz.setter
+    def xyz(self, value):
+        self._xyz = np.asarray(value)
+        self.vertices = np.array([[self.offset[0],
+                                   -self.thickness/2+self.xyz[1]+self.offset[1],
+                                   +self.thickness/2+self.xyz[2]+self.offset[2]],
+                                  [self.offset[0],
+                                   +self.thickness/2+self.xyz[1]+self.offset[1],
+                                   +self.thickness/2+self.xyz[2]+self.offset[2]],
+                                  [self.xyz[0]+self.offset[0],
+                                   +self.thickness/2+self.xyz[1]+self.offset[1],
+                                   +self.thickness/2+self.xyz[2]+self.offset[2]],
+                                  [self.xyz[0]+self.offset[0],
+                                   -self.thickness/2+self.xyz[1]+self.offset[1],
+                                   +self.thickness/2+self.xyz[2]+self.offset[2]],
+                                  [self.offset[0],
+                                   -self.thickness/2+self.xyz[1]+self.offset[1],
+                                   -self.thickness/2+self.xyz[2]+self.offset[2]],
+                                  [self.offset[0],
+                                   +self.thickness/2+self.xyz[1]+self.offset[1],
+                                   -self.thickness/2+self.xyz[2]+self.offset[2]],
+                                  [self.xyz[0]+self.offset[0],
+                                   +self.thickness/2+self.xyz[1]+self.offset[1],
+                                   -self.thickness/2+self.xyz[2]+self.offset[2]],
+                                  [self.xyz[0]+self.offset[0],
+                                   -self.thickness/2+self.xyz[1]+self.offset[1],
+                                   -self.thickness/2+self.xyz[2]+self.offset[2]]])
 
 
 class SolidsGroup(Solids):
@@ -669,21 +849,21 @@ class SolidsGroup(Solids):
                  origin=(0, 0, -5),
                  offset=(0, 0, 0),
                  axis=(0, 1, 0),
-                 angle=None,
-                 angle_degree=None):
+                 theta=None,
+                 theta_degree=None):
 
         self.solids_list = solids_list
         self._origin = np.asarray(origin, np.dtype('float64'))
         self._offset = np.asarray(offset, np.dtype('float64'))
         self._axis = np.asarray(axis, np.dtype('float64'))
-        self._angle_degree = angle_degree
-        self._angle = angle
+        self._theta_degree = theta_degree
+        self._theta = theta
 
         super().__init__(origin=origin,
                          offset=offset,
                          axis=axis,
-                         angle=angle,
-                         angle_degree=angle_degree)
+                         theta=theta,
+                         theta_degree=theta_degree)
 
     def draw(self):
         for solid in self.solids_list:
@@ -720,35 +900,35 @@ class SolidsGroup(Solids):
             solid.axis = np.asarray(self._axis)
 
     @property
-    def angle(self):
-        return self._angle
+    def theta(self):
+        return self._theta
 
-    @angle.setter
-    def angle(self, value):
-        self._angle = value
-        if self._angle > 2*np.pi:
-            self._angle += 2*np.pi
-        elif self._angle > 2*np.pi:
-            self._angle -= 2*np.pi
+    @theta.setter
+    def theta(self, value):
+        self._theta = value
+        if self._theta > 2*np.pi:
+            self._theta += 2*np.pi
+        elif self._theta > 2*np.pi:
+            self._theta -= 2*np.pi
 
-        self._angle_degree = 180 * (value / np.pi)
+        self._theta_degree = 180 * (value / np.pi)
 
         for solid in self.solids_list:
-            solid.angle = self._angle
+            solid.theta = self._theta
 
     @property
-    def angle_degree(self):
-        return self._angle_degree
+    def theta_degree(self):
+        return self._theta_degree
 
-    @angle_degree.setter
-    def angle_degree(self, value):
-        self._angle_degree = value
-        if self._angle_degree < 0:
-            self._angle_degree += 360
-        elif self._angle_degree > 360:
-            self._angle_degree -= 360
+    @theta_degree.setter
+    def theta_degree(self, value):
+        self._theta_degree = value
+        if self._theta_degree < 0:
+            self._theta_degree += 360
+        elif self._theta_degree > 360:
+            self._theta_degree -= 360
 
-        self._angle = np.pi * (value / 180)
+        self._theta = np.pi * (value / 180)
 
         for solid in self.solids_list:
-            solid.angle_degree = self._angle_degree
+            solid.theta_degree = self._theta_degree
