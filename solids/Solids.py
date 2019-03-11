@@ -13,6 +13,8 @@ class Solids:
                  axis=(0, 1, 0),
                  theta=None,
                  theta_degree=None,
+                 phi=None,
+                 phi_degree=None,
                  size=None):
 
         self.vertices = vertices
@@ -24,19 +26,26 @@ class Solids:
         self._offset = np.asarray(offset, np.dtype('float64'))
         self._axis = np.asarray(axis, np.dtype('float64'))
 
+        self._theta = 0
+        self._theta_degree = 0
+        self._phi = 0
+        self._phi_degree = 0
+
         if theta is not None and theta_degree is None:
             self.theta = theta
         elif theta is None and theta_degree is not None:
             self.theta_degree = theta_degree
-        else:
-            self._theta = 0
-            self._theta_degree = 0
 
-    def draw(self):
+        if phi is not None and phi_degree is None:
+            self.phi = phi
+        elif phi is None and phi_degree is not None:
+            self.phi_degree = phi_degree
+
+    def draw(self, mode=None):
         glPushMatrix()
 
         self._translate()
-        self._rotate()
+        self._rotate(mode)
 
         if self.vertices is not None and self.edges is not None:
             self._draw_edges()
@@ -65,8 +74,12 @@ class Solids:
     def _translate(self):
         glTranslatef(self._origin[0], self._origin[1], self._origin[2])
 
-    def _rotate(self):
-        glRotatef(self._theta_degree, self._axis[0], self._axis[1], self._axis[2])
+    def _rotate(self, mode=None):
+        if mode == "spherical":
+            glRotatef(self._theta_degree, 0, 1, 0)
+            glRotatef(self._phi_degree, 0, 0, 1)
+        else:
+            glRotatef(self._theta_degree, self._axis[0], self._axis[1], self._axis[2])
 
     @property
     def color(self):
@@ -130,6 +143,32 @@ class Solids:
             self._theta_degree -= 360
         self._theta = np.pi * (value / 180)
 
+    @property
+    def phi(self):
+        return self._phi
+
+    @phi.setter
+    def phi(self, value):
+        self._phi = value
+        if self._phi < 0:
+            self._phi += 2 * np.pi
+        elif self._phi > 2 * np.pi:
+            self._phi -= 2 * np.pi
+        self._phi_degree = 180 * (value / np.pi)
+
+    @property
+    def phi_degree(self):
+        return self._phi_degree
+
+    @phi_degree.setter
+    def phi_degree(self, value):
+        self._phi_degree = value
+        if self._phi_degree < 0:
+            self._phi_degree += 360
+        elif self._phi_degree > 360:
+            self._phi_degree -= 360
+        self._phi = np.pi * (value / 180)
+
 
 class Pyramid(Solids):
     def __init__(self,
@@ -139,6 +178,8 @@ class Pyramid(Solids):
                  axis=(0, 1, 0),  # (x, y, z)
                  theta=None,
                  theta_degree=None,
+                 phi=None,
+                 phi_degree=None,
                  size=(0.5, 0.3, 0.5)):  # size = (x, y, z)
 
         vertices = np.array([[-size[0]/2+offset[0], -size[1]/2+offset[1], +size[2]/2+offset[2]],  # 0
@@ -190,6 +231,8 @@ class Pyramid(Solids):
                          axis=axis,
                          theta=theta,
                          theta_degree=theta_degree,
+                         phi=phi,
+                         phi_degree=phi_degree,
                          size=size)
 
 
@@ -201,6 +244,8 @@ class Cube(Solids):
                  axis=(0, 1, 0),  # (x, y, z)
                  theta=None,
                  theta_degree=None,
+                 phi=None,
+                 phi_degree=None,
                  size=0.6):
 
         vertices = np.array([[-size/2+offset[0], -size/2+offset[1], +size/2+offset[2]],
@@ -255,6 +300,8 @@ class Cube(Solids):
                          axis=axis,
                          theta=theta,
                          theta_degree=theta_degree,
+                         phi=phi,
+                         phi_degree=phi_degree,
                          size=size)
 
 
@@ -266,6 +313,8 @@ class Parallelepiped(Solids):
                  axis=(0, 1, 0),  # axis = (x, y, z)
                  theta=None,
                  theta_degree=None,
+                 phi=None,
+                 phi_degree=None,
                  alpha=np.pi/2,
                  size=(0.5, 0.7, 0.2)):  # size = (x, y, z)
 
@@ -332,6 +381,8 @@ class Parallelepiped(Solids):
                          axis=axis,
                          theta=theta,
                          theta_degree=theta_degree,
+                         phi=phi,
+                         phi_degree=phi_degree,
                          size=size)
 
 
@@ -343,6 +394,8 @@ class Trapezoid(Solids):
                  axis=(0, 1, 0),  # axis = (x, y, z)
                  theta=None,
                  theta_degree=None,
+                 phi=None,
+                 phi_degree=None,
                  size=(0.5, 0.5, 0.2, 0.3, 0.2, 0.3)):  # size = (x1_b, x2_b, x1_t, x2_t, y, z)
 
         vertices = np.array([[-size[0]/2+offset[0], -size[4]/2+offset[1], +size[5]/2+offset[2]],   # 0
@@ -401,6 +454,8 @@ class Trapezoid(Solids):
                          offset=offset,
                          theta=theta,
                          theta_degree=theta_degree,
+                         phi=phi,
+                         phi_degree=phi_degree,
                          axis=axis,
                          size=size)
 
@@ -413,6 +468,8 @@ class PyramidTrunk(Solids):
                  axis=(0, 1, 0),  # axis = (x, y, z)
                  theta=None,
                  theta_degree=None,
+                 phi=None,
+                 phi_degree=None,
                  size=(0.5, 0.3, 0.5, 0.3, 0.2)):  # size = (x, y, z, x, y)
 
         vertices = np.array([[-size[0]/2+offset[0], -size[1]/2+offset[1], +size[2]/2+offset[2]],   # 0
@@ -471,6 +528,8 @@ class PyramidTrunk(Solids):
                          axis=axis,
                          theta=theta,
                          theta_degree=theta_degree,
+                         phi=phi,
+                         phi_degree=phi_degree,
                          size=size)
 
 
@@ -482,6 +541,8 @@ class Hexagon(Solids):
                  axis=(0, 1, 0),  # axis = (x, y, z)
                  theta=None,
                  theta_degree=None,
+                 phi=None,
+                 phi_degree=None,
                  size=(0.5, 0.2)):  # size = (size, y)
 
         higher_hexagon = size[0]*np.sin(np.pi / 3)
@@ -565,6 +626,8 @@ class Hexagon(Solids):
                          axis=axis,
                          theta=theta,
                          theta_degree=theta_degree,
+                         phi=phi,
+                         phi_degree=phi_degree,
                          size=size)
 
 
@@ -576,6 +639,8 @@ class HexagonAxis(Solids):
                  axis=(0, 1, 0),  # axis = (x, y, z)
                  theta=None,
                  theta_degree=None,
+                 phi=None,
+                 phi_degree=None,
                  size=(1, 1.5)):  # size = (size, x)
 
         higher_hexagon = size[0]*np.sin(np.pi / 3)
@@ -643,6 +708,8 @@ class HexagonAxis(Solids):
                          offset=offset,
                          theta=theta,
                          theta_degree=theta_degree,
+                         phi=phi,
+                         phi_degree=phi_degree,
                          axis=axis,
                          size=size)
 
@@ -655,6 +722,8 @@ class HexagonStalk(Solids):
                  axis=(0, 1, 0),  # axis = (x, y, z)
                  theta=None,
                  theta_degree=None,
+                 phi=None,
+                 phi_degree=None,
                  size=(1, 1.5)):  # size = (size, x)
 
         higher_hexagon = size[0]*np.sin(np.pi / 3)
@@ -722,6 +791,8 @@ class HexagonStalk(Solids):
                          offset=offset,
                          theta=theta,
                          theta_degree=theta_degree,
+                         phi=phi,
+                         phi_degree=phi_degree,
                          axis=axis,
                          size=size)
 
@@ -734,6 +805,8 @@ class Stalk(Solids):
                  axis=(0, 1, 0),  # axis = (x, y, z)
                  theta=None,
                  theta_degree=None,
+                 phi=None,
+                 phi_degree=None,
                  thickness=0.2,
                  xyz=(1, 1, 1)):
 
@@ -804,6 +877,8 @@ class Stalk(Solids):
                          offset=offset,
                          theta=theta,
                          theta_degree=theta_degree,
+                         phi=phi,
+                         phi_degree=phi_degree,
                          axis=axis,
                          size=thickness)
 
@@ -850,7 +925,9 @@ class SolidsGroup(Solids):
                  offset=(0, 0, 0),
                  axis=(0, 1, 0),
                  theta=None,
-                 theta_degree=None):
+                 theta_degree=None,
+                 phi=None,
+                 phi_degree=None):
 
         self.solids_list = solids_list
         self._origin = np.asarray(origin, np.dtype('float64'))
@@ -863,7 +940,9 @@ class SolidsGroup(Solids):
                          offset=offset,
                          axis=axis,
                          theta=theta,
-                         theta_degree=theta_degree)
+                         theta_degree=theta_degree,
+                         phi=phi,
+                         phi_degree=phi_degree)
 
     def draw(self):
         for solid in self.solids_list:

@@ -36,7 +36,7 @@ class Part:
         elif phi is None and phi_degree is not None:
             self.phi_degree = phi_degree
 
-    def draw(self):
+    def draw(self, mode="spherical"):
         pass
 
     @property
@@ -151,20 +151,20 @@ class MasterPart(Part):
         #                                   theta=theta,
         #                                   size=(1.6, 1.6, 1.7, 1.7, 0.2, 0.25)))
 
-        # self.solids_list.append(HexagonStalk(color=(0.1, 0.1, 0.9),
-        #                                      origin=(self.origin[0], self.origin[2], self.origin[2]-5),
-        #                                      offset=(0, 0, 0),
-        #                                      axis=(0, 0, 0),
-        #                                      theta=theta,
-        #                                      size=(0.1, 1)))
+        self.solids_list.append(HexagonStalk(color=(0.1, 0.1, 0.9),
+                                             origin=(self.origin[0], self.origin[2], self.origin[2]-5),
+                                             offset=(0, 0, 0),
+                                             axis=(0, 0, 0),
+                                             theta=theta,
+                                             size=(0.1, 1)))
 
-        self.solids_list.append(Stalk(color=(0.1, 0.1, 0.9),
-                                      origin=(self.origin[0], self.origin[2], self.origin[2]-5),
-                                      offset=(0, 0, 0),
-                                      axis=(0, 0, 0),
-                                      xyz=(self.x, self.y, self.z)))
+        # self.solids_list.append(Stalk(color=(0.1, 0.1, 0.9),
+        #                               origin=(self.origin[0], self.origin[2], self.origin[2]-5),
+        #                               offset=(0, 0, 0),
+        #                               axis=(0, 0, 0),
+        #                               xyz=(self.x, self.y, self.z)))
 
-    def draw(self):
+    def draw(self, mode=None):
         # self.solids_list[-2].origin = (self.x, self.y, self.z-5)
         # self.solids_list[-2].axis = (0, 1, 0)
         # self.solids_list[-2].theta = self.theta
@@ -175,10 +175,13 @@ class MasterPart(Part):
         # # self.solids_list[-1].theta = self.theta
         # self.solids_list[-1].theta = (self.theta**2 + (np.pi/2 - self.phi)**2)**0.5
 
-        self.solids_list[-1].xyz = (self.x, self.y, self.z)
+        # self.solids_list[-1].xyz = (self.x, self.y, self.z)
+
+        self.solids_list[-1].phi = self.phi
+        self.solids_list[-1].theta = self.theta
 
         for solid in self.solids_list:
-            solid.draw()
+            solid.draw(mode)
 
 
 class SlavePart(Part):

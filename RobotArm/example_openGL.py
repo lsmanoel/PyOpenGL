@@ -95,7 +95,7 @@ class PgScreen:
 
         elif self.main_state == 'run_state':
             for part in self.part_list:
-                part.draw()
+                part.draw(mode="spherical")
 
         pygame.display.flip()
 

@@ -11,7 +11,7 @@ class Tank(SolidsGroup):
     def __init__(self,
                  origin=(0, 0, -5),
                  offset=(0, 0, 0),
-                 axis=(0, 1, 0),
+                 axis=(1, 1, 0),
                  theta=np.pi/2):
 
         self.solids_list = []
@@ -121,7 +121,7 @@ def main():
     glEnable(GL_DEPTH_TEST)
 
     tank_1 = Tank(origin=(-2, 0, -5),
-                  axis=(0, -1, 0))
+                  axis=(1, -1, 0))
     i = 0
 
     while True:
