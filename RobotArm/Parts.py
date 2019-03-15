@@ -181,12 +181,15 @@ class MasterPart(Part):
         y_stalk_origin = 0.6
 
         self.stalks_list.append(Hexagon(color=(0.1, 0.1, 0.7),
-                                        origin=(origin[0], origin[1]+y_stalk_origin, origin[2]),
-                                        origin_offset=(0, 0, 0),
-                                        axis=(0, 0, 0),
-                                        theta=theta+np.pi/2,
-                                        phi=np.pi/2,
-                                        size=(0.5, 0.25)))
+                                            origin=(origin[0], origin[1]+y_stalk_origin, origin[2]),
+                                            origin_offset=(0, 0, 0),
+                                            origin_axis=(0, 0, 1),
+                                            axis=(0, 0, 0),
+                                            # theta=theta,
+                                            # theta_offset=np.pi/2,
+                                            # phi=phi,
+                                            # phi_offset=np.pi / 2,
+                                            size=(0.5, 0.25)))
 
         self.stalks_list.append(Trapezoid(color=(0.1, 0.1, 0.7),
                                           origin=(origin[0], origin[1]+y_stalk_origin, origin[2]),

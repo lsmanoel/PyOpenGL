@@ -714,6 +714,7 @@ class Hexagon(Solids):
                  color_offset=(0, 0, 0),
                  origin=(0, 0, 0),
                  origin_offset=(0, 0, 0),
+                 origin_axis=(0, 1, 0),
                  axis=(0, 1, 0),
                  axis_offset=(0, 0, 0),
                  theta=None,
@@ -740,49 +741,109 @@ class Hexagon(Solids):
         | \       \ |/ |                                \ |
         |__\_______\/__|                                 \|__
         '''
-        vertices = np.array([[-side_hexagon/2+size_offset[0],
-                              -size[1]/2+size_offset[1],
-                              +higher_hexagon/2+size_offset[0]],   # 0
-                             [-side_hexagon/2+size_offset[0],
-                              +size[1]/2+size_offset[1],
-                              +higher_hexagon/2+size_offset[0]],   # 1
-                             [+side_hexagon/2+size_offset[0],
-                              +size[1]/2+size_offset[1],
-                              +higher_hexagon/2+size_offset[0]],   # 2
-                             [+side_hexagon/2+size_offset[0],
-                              -size[1]/2+size_offset[1],
-                              +higher_hexagon/2+size_offset[0]],   # 3
-                             [-side_hexagon/2+size_offset[0],
-                              -size[1]/2+size_offset[1],
-                              -higher_hexagon/2+size_offset[0]],   # 4
-                             [-side_hexagon/2+size_offset[0],
-                              +size[1]/2+size_offset[1],
-                              -higher_hexagon/2+size_offset[0]],   # 5
-                             [+side_hexagon/2+size_offset[0],
-                              +size[1]/2+size_offset[1],
-                              -higher_hexagon/2+size_offset[0]],   # 6
-                             [+side_hexagon/2+size_offset[0],
-                              -size[1]/2+size_offset[1],
-                              -higher_hexagon/2+size_offset[0]],   # 7
-                             [-size[0]/2+size_offset[0], -size[1]/2+size_offset[1], size_offset[0]],    # 8
-                             [-size[0]/2+size_offset[0], +size[1]/2+size_offset[1], size_offset[0]],    # 9
-                             [+size[0]/2+size_offset[0], +size[1]/2+size_offset[1], size_offset[0]],    # 10
-                             [+size[0]/2+size_offset[0], -size[1]/2+size_offset[1], size_offset[0]]])   # 11
-
+        if origin_axis == (1, 0, 0):
+            vertices = np.array([[+size[1]/2+size_offset[0],
+                                  -side_hexagon/2+size_offset[1],
+                                  +higher_hexagon/2+size_offset[0]],   # 0
+                                 [-size[1]/2+size_offset[0],
+                                  -side_hexagon/2+size_offset[1],
+                                  +higher_hexagon/2+size_offset[0]],   # 1
+                                 [-size[1]/2+size_offset[0],
+                                  +side_hexagon/2+size_offset[1],
+                                  +higher_hexagon/2+size_offset[0]],   # 2
+                                 [+size[1]/2+size_offset[0],
+                                  +side_hexagon/2+size_offset[1],
+                                  +higher_hexagon/2+size_offset[0]],   # 3
+                                 [+size[1]/2+size_offset[0],
+                                  -side_hexagon/2+size_offset[1],
+                                  -higher_hexagon/2+size_offset[0]],   # 4
+                                 [-size[1]/2+size_offset[0],
+                                  -side_hexagon/2+size_offset[1],
+                                  -higher_hexagon/2+size_offset[0]],   # 5
+                                 [-size[1]/2+size_offset[0],
+                                  +side_hexagon/2+size_offset[1],
+                                  -higher_hexagon/2+size_offset[0]],   # 6
+                                 [+size[1]/2+size_offset[0],
+                                  +side_hexagon/2+size_offset[1],
+                                  -higher_hexagon/2+size_offset[0]],   # 7
+                                 [+size[1]/2+size_offset[0], -size[0]/2+size_offset[1], size_offset[0]],    # 8
+                                 [-size[1]/2+size_offset[0], -size[0]/2+size_offset[1], size_offset[0]],    # 9
+                                 [-size[1]/2+size_offset[0], +size[0]/2+size_offset[1], size_offset[0]],    # 10
+                                 [+size[1]/2+size_offset[0], +size[0]/2+size_offset[1], size_offset[0]]])   # 11
+        elif origin_axis == (0, 1, 0):
+            vertices = np.array([[-side_hexagon/2+size_offset[0],
+                                  -size[1]/2+size_offset[1],
+                                  +higher_hexagon/2+size_offset[0]],   # 0
+                                 [-side_hexagon/2+size_offset[0],
+                                  +size[1]/2+size_offset[1],
+                                  +higher_hexagon/2+size_offset[0]],   # 1
+                                 [+side_hexagon/2+size_offset[0],
+                                  +size[1]/2+size_offset[1],
+                                  +higher_hexagon/2+size_offset[0]],   # 2
+                                 [+side_hexagon/2+size_offset[0],
+                                  -size[1]/2+size_offset[1],
+                                  +higher_hexagon/2+size_offset[0]],   # 3
+                                 [-side_hexagon/2+size_offset[0],
+                                  -size[1]/2+size_offset[1],
+                                  -higher_hexagon/2+size_offset[0]],   # 4
+                                 [-side_hexagon/2+size_offset[0],
+                                  +size[1]/2+size_offset[1],
+                                  -higher_hexagon/2+size_offset[0]],   # 5
+                                 [+side_hexagon/2+size_offset[0],
+                                  +size[1]/2+size_offset[1],
+                                  -higher_hexagon/2+size_offset[0]],   # 6
+                                 [+side_hexagon/2+size_offset[0],
+                                  -size[1]/2+size_offset[1],
+                                  -higher_hexagon/2+size_offset[0]],   # 7
+                                 [-size[0]/2+size_offset[0], -size[1]/2+size_offset[1], size_offset[0]],    # 8
+                                 [-size[0]/2+size_offset[0], +size[1]/2+size_offset[1], size_offset[0]],    # 9
+                                 [+size[0]/2+size_offset[0], +size[1]/2+size_offset[1], size_offset[0]],    # 10
+                                 [+size[0]/2+size_offset[0], -size[1]/2+size_offset[1], size_offset[0]]])   # 11
+        elif origin_axis == (0, 0, 1):
+            vertices = np.array([[-side_hexagon/2+size_offset[0],
+                                  -higher_hexagon/2+size_offset[1],
+                                  -size[1]/2+size_offset[0]],   # 0
+                                 [-side_hexagon/2+size_offset[0],
+                                  -higher_hexagon/2+size_offset[1],
+                                  +size[1]/2+size_offset[0]],   # 1
+                                 [+side_hexagon/2+size_offset[0],
+                                  -higher_hexagon/2+size_offset[1],
+                                  +size[1]/2+size_offset[0]],   # 2
+                                 [+side_hexagon/2+size_offset[0],
+                                  -higher_hexagon/2+size_offset[1],
+                                  -size[1]/2+size_offset[0]],   # 3
+                                 [-side_hexagon/2+size_offset[0],
+                                  +higher_hexagon/2+size_offset[1],
+                                  -size[1]/2+size_offset[0]],   # 4
+                                 [-side_hexagon/2+size_offset[0],
+                                  +higher_hexagon/2+size_offset[1],
+                                  +size[1]/2+size_offset[0]],   # 5
+                                 [+side_hexagon/2+size_offset[0],
+                                  +higher_hexagon/2+size_offset[1],
+                                  +size[1]/2+size_offset[0]],   # 6
+                                 [+side_hexagon/2+size_offset[0],
+                                  +higher_hexagon/2+size_offset[1],
+                                  -size[1]/2+size_offset[0]],   # 7
+                                 [-size[0]/2+size_offset[0], size_offset[1], -size[1]/2+size_offset[0]],    # 8
+                                 [-size[0]/2+size_offset[0], size_offset[1], +size[1]/2+size_offset[0]],    # 9
+                                 [+size[0]/2+size_offset[0], size_offset[1], +size[1]/2+size_offset[0]],    # 10
+                                 [+size[0]/2+size_offset[0], size_offset[1], -size[1]/2+size_offset[0]]])   # 11
         '''
-               5 _______________6                   5__________6                                              
-               /|               /|                  /|        |\                                               
-              /                / |                 /            \ ______-z                              
-          y__/  |__          _/  |__-z       y__ 9/  |4__   __|7 \ 10 
-           9/| 4/          10/  7/               |\  /        \  /|       
-           / |8             /   /                | \            / |  
-          /________________/   /__0              |8 \__________/  | __0           
-         1|               2|11/                   \  1        |2 / 11               
-          |                | /                 /   \ |        | /   
-         0|_______________3|/                 /     \|________|/   
-         /                                   /       0        3  
-        /                                   /     
-      -x                                  -x                                                                               
+                      y                              origin_axis
+                      |                                  / \ 
+               5 _____|_________6                   5_____|_____6                                              
+               /|     |         /|                  /|    |    |\                                               
+              /       |        / |                 /      |      \                               
+             /  |__   |      _/  |               9/  |4__ |  __|7 \ 10 
+           9/| 4/          10/  7/               |\  /         \  /|       
+           / |8             /   /                | \             / |  
+          /________________/   /__x              |8 \___________/  | __x           
+         1|               2|11/                   \  1         |2 / 11               
+          |                | /                     \ |         | /   
+         0|_______________3|/                       \|____ ____|/   
+                  /                                  0   /     3  
+                 /                                      /     
+                z                                      z                                                                               
         '''
 
         edges = np.array([[0, 1],
@@ -860,14 +921,14 @@ class HexagonAxis(Solids):
 
         '''
                                origin 
-            5____6_______________ | _________4____7
-           /      \               |         /      \
-          /        \             \|/                \
-       9 /          \ 10__________o_________________ \
-         \          /                    8\        11/
-          \        /                                /
-           \_____ /________________________ \_____ /
-            1    2                          0     3
+            5___6_______________ | _________4____7
+           /     \               |         /     \
+          /       \             \|/               \
+       9 /         \ 10__________o________________ \
+         \         /                    8\       11/
+          \       /                               /
+           \____ /________________________ \____ /
+            1   2                           0   3
         '''
         vertices = np.array([[-size[1]/2+size_offset[0],
                               +higher_hexagon/2+size_offset[1],

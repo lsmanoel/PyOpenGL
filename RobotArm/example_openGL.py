@@ -37,7 +37,7 @@ class PgScreen:
 
         self.part_list.append(MasterPart(origin=(0, -2, -5),
                                          theta=0,
-                                         phi=np.pi/2,
+                                         phi=0,
                                          length=1))
 
     def check_key_events(self):
