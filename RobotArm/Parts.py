@@ -142,54 +142,52 @@ class MasterPart(Part):
                          length=length,
                          noise_std_deviation=noise_std_deviation)
 
-        self.base_list = []
+        self.fixed_base_list = []
 
-        # self.base_list.append(Trapezoid(color=(0.1, 0.1, 0.7),
-        #                                 origin=(origin[0], origin[1], origin[2]),
-        #                                 offset=(0, 0, -0.3),
-        #                                 axis=(0, 0, 0),
-        #                                 theta=theta,
-        #                                 phi=0,
-        #                                 size=(1, 1, 0.5, 0.5, 0.6, 0.2)))
-        #
-        # self.base_list.append(Trapezoid(color=(0.1, 0.1, 0.7),
-        #                                 origin=(origin[0], origin[1], origin[2]),
-        #                                 offset=(0, 0, 0.3),
-        #                                 axis=(0, 0, 0),
-        #                                 theta=theta,
-        #                                 phi=0,
-        #                                 size=(1, 1, 0.5, 0.5, 0.6, 0.2)))
+        self.fixed_base_list.append(Hexagon(color=(0.1, 0.1, 0.7),
+                                            origin=(origin[0], origin[1], origin[2]),
+                                            origin_offset=(0, 0, 0),
+                                            axis=(0, 0, 0),
+                                            theta=theta+np.pi/2,
+                                            phi=0,
+                                            size=(2, 0.10)))
+
+        self.fixed_base_list.append(Hexagon(color=(0.1, 0.1, 0.7),
+                                            origin=(origin[0], origin[1], origin[2]),
+                                            origin_offset=(0, 0.5, 0),
+                                            axis=(0, 0, 0),
+                                            theta=theta+np.pi/2,
+                                            phi=0,
+                                            size=(1.5, 0.10)))
+
+        self.base_list = []
 
         self.base_list.append(Hexagon(color=(0.1, 0.1, 0.7),
                                       origin=(origin[0], origin[1], origin[2]),
-                                      origin_offset=(0, 0, 0),
+                                      origin_offset=(0, 0.61, 0),
                                       axis=(0, 0, 0),
                                       theta=theta+np.pi/2,
                                       phi=0,
-                                      size=(2, 0.10)))
+                                      size=(0.9, 0.10)))
 
         self.base_list.append(Hexagon(color=(0.1, 0.1, 0.7),
                                       origin=(origin[0], origin[1], origin[2]),
-                                      origin_offset=(0, 0, 0),
+                                      origin_offset=(0, 0.8, 0),
                                       axis=(0, 0, 0),
-                                      theta=theta,
-                                      phi=np.pi/2,
-                                      size=(0.5, 0.25)))
+                                      theta=theta+np.pi/2,
+                                      phi=0,
+                                      size=(1.1, 0.40)))
 
         self.stalks_list = []
 
-        y_stalk_origin = 0.6
+        y_stalk_origin = 1.3
 
         self.stalks_list.append(Hexagon(color=(0.1, 0.1, 0.7),
-                                            origin=(origin[0], origin[1]+y_stalk_origin, origin[2]),
-                                            origin_offset=(0, 0, 0),
-                                            origin_axis=(0, 0, 1),
-                                            axis=(0, 0, 0),
-                                            # theta=theta,
-                                            # theta_offset=np.pi/2,
-                                            # phi=phi,
-                                            # phi_offset=np.pi / 2,
-                                            size=(0.5, 0.25)))
+                                        origin=(origin[0], origin[1]+y_stalk_origin, origin[2]),
+                                        origin_offset=(0, 0, 0),
+                                        origin_axis=(0, 0, 1),
+                                        axis=(0, 0, 0),
+                                        size=(0.5, 0.25)))
 
         self.stalks_list.append(Trapezoid(color=(0.1, 0.1, 0.7),
                                           origin=(origin[0], origin[1]+y_stalk_origin, origin[2]),
@@ -227,6 +225,10 @@ class MasterPart(Part):
                                              size=(0.1, 2)))
 
     def draw(self, mode=None):
+
+        for solid in self.fixed_base_list:
+            solid.draw(mode)
+
         for solid in self.base_list:
             # solid.phi = np.pi/2
             solid.theta = self.theta+np.pi/2
