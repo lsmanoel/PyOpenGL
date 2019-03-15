@@ -10,7 +10,7 @@ from OpenGL.GLU import *
 class Orbit(SolidsGroup):
     def __init__(self,
                  origin=(0, 0, -5),
-                 offset=(0, 0, 0),
+                 origin_offset=(0, 0, 0),
                  axis=(0, 0, 1),
                  theta=np.pi/2):
 
@@ -18,7 +18,7 @@ class Orbit(SolidsGroup):
 
         cube_1 = Cube(color=(0.2, 0.8, 1),
                       origin=origin,
-                      offset=offset,
+                      origin_offset=origin_offset,
                       axis=axis,
                       theta=theta,
                       size=0.2)
@@ -26,7 +26,7 @@ class Orbit(SolidsGroup):
 
         cube_2 = Cube(color=(0.4, 0.6, 1),
                       origin=origin,
-                      offset=(0.5+offset[0], 0+offset[1], 0+offset[2]),
+                      origin_offset=(0.5+origin_offset[0], 0+origin_offset[1], 0+origin_offset[2]),
                       axis=axis,
                       theta=theta,
                       size=0.18)
@@ -34,7 +34,7 @@ class Orbit(SolidsGroup):
 
         cube_3 = Cube(color=(0.6, 0.4, 0.9),
                       origin=origin,
-                      offset=(1+offset[0], 0+offset[1], 0+offset[2]),
+                      origin_offset=(1+origin_offset[0], 0+origin_offset[1], 0+origin_offset[2]),
                       axis=axis,
                       theta=theta,
                       size=0.16)
@@ -42,7 +42,7 @@ class Orbit(SolidsGroup):
 
         cube_4 = Cube(color=(0.8, 0.3, 0.6),
                       origin=origin,
-                      offset=(1.5+offset[0], 0+offset[1], 0+offset[2]),
+                      origin_offset=(1.5+origin_offset[0], 0+origin_offset[1], 0+origin_offset[2]),
                       axis=axis,
                       theta=theta,
                       size=0.14)
@@ -50,7 +50,7 @@ class Orbit(SolidsGroup):
 
         cube_5 = Cube(color=(1, 0, 0.2),
                       origin=origin,
-                      offset=(2+offset[0], 0+offset[1], 0+offset[2]),
+                      origin_offset=(2+origin_offset[0], 0+origin_offset[1], 0+origin_offset[2]),
                       axis=axis,
                       theta=theta,
                       size=0.12)
@@ -58,7 +58,7 @@ class Orbit(SolidsGroup):
 
         super().__init__(solids_list=self.solids_list,
                          origin=origin,
-                         offset=offset,
+                         origin_offset=origin_offset,
                          axis=axis,
                          theta=theta)
 
@@ -75,47 +75,47 @@ def main():
     orbit_list = []
 
     orbit_list.append(Orbit(origin=(0, 0, -5),
-                            offset=(1, 0, 0),
+                            origin_offset=(1, 0, 0),
                             axis=(0, 1, 1),
                             theta=np.pi/2))
 
     orbit_list.append(Orbit(origin=(0, 0, -5),
-                            offset=(1, 0, 0),
+                            origin_offset=(1, 0, 0),
                             axis=(1, 1, 0),
                             theta=np.pi/2))
 
     orbit_list.append(Orbit(origin=(0, 0, -5),
-                            offset=(1, 0, 0),
+                            origin_offset=(1, 0, 0),
                             axis=(1, 0, 1),
                             theta=np.pi/2))
 
     orbit_list.append(Orbit(origin=(0, 0, -5),
-                            offset=(1, 0, 0),
+                            origin_offset=(1, 0, 0),
                             axis=(0, -1, -1),
                             theta=np.pi/2))
 
     orbit_list.append(Orbit(origin=(0, 0, -5),
-                            offset=(1, 0, 0),
+                            origin_offset=(1, 0, 0),
                             axis=(-1, -1, 0),
                             theta=np.pi/2))
 
     orbit_list.append(Orbit(origin=(0, 0, -5),
-                            offset=(1, 0, 0),
+                            origin_offset=(1, 0, 0),
                             axis=(-1, 0, -1),
                             theta=np.pi/2))
 
     orbit_list.append(Orbit(origin=(0, 0, -5),
-                            offset=(1, 0, 0),
+                            origin_offset=(1, 0, 0),
                             axis=(0, -1, 1),
                             theta=np.pi/2))
 
     orbit_list.append(Orbit(origin=(0, 0, -5),
-                            offset=(1, 0, 0),
+                            origin_offset=(1, 0, 0),
                             axis=(-1, 1, 0),
                             theta=np.pi/2))
 
     orbit_list.append(Orbit(origin=(0, 0, -5),
-                            offset=(1, 0, 0),
+                            origin_offset=(1, 0, 0),
                             axis=(-1, 0, 1),
                             theta=np.pi/2))
 

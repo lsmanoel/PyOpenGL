@@ -142,45 +142,96 @@ class MasterPart(Part):
                          length=length,
                          noise_std_deviation=noise_std_deviation)
 
-        self.solids_list = []
+        self.base_list = []
 
-        # self.solids_list.append(Trapezoid(color=(0.1, 0.1, 0.9),
-        #                                   origin=(self.x, self.y, self.z-5),
-        #                                   offset=(0, 0, 0),
-        #                                   axis=(0, 0, 0),
-        #                                   theta=theta,
-        #                                   size=(1.6, 1.6, 1.7, 1.7, 0.2, 0.25)))
+        # self.base_list.append(Trapezoid(color=(0.1, 0.1, 0.7),
+        #                                 origin=(origin[0], origin[1], origin[2]),
+        #                                 offset=(0, 0, -0.3),
+        #                                 axis=(0, 0, 0),
+        #                                 theta=theta,
+        #                                 phi=0,
+        #                                 size=(1, 1, 0.5, 0.5, 0.6, 0.2)))
+        #
+        # self.base_list.append(Trapezoid(color=(0.1, 0.1, 0.7),
+        #                                 origin=(origin[0], origin[1], origin[2]),
+        #                                 offset=(0, 0, 0.3),
+        #                                 axis=(0, 0, 0),
+        #                                 theta=theta,
+        #                                 phi=0,
+        #                                 size=(1, 1, 0.5, 0.5, 0.6, 0.2)))
 
-        self.solids_list.append(HexagonStalk(color=(0.1, 0.1, 0.9),
-                                             origin=(self.origin[0], self.origin[2], self.origin[2]-5),
-                                             offset=(0, 0, 0),
+        self.base_list.append(Hexagon(color=(0.1, 0.1, 0.7),
+                                      origin=(origin[0], origin[1], origin[2]),
+                                      origin_offset=(0, 0, 0),
+                                      axis=(0, 0, 0),
+                                      theta=theta+np.pi/2,
+                                      phi=0,
+                                      size=(2, 0.10)))
+
+        self.base_list.append(Hexagon(color=(0.1, 0.1, 0.7),
+                                      origin=(origin[0], origin[1], origin[2]),
+                                      origin_offset=(0, 0, 0),
+                                      axis=(0, 0, 0),
+                                      theta=theta,
+                                      phi=np.pi/2,
+                                      size=(0.5, 0.25)))
+
+        self.stalks_list = []
+
+        y_stalk_origin = 0.6
+
+        self.stalks_list.append(Hexagon(color=(0.1, 0.1, 0.7),
+                                        origin=(origin[0], origin[1]+y_stalk_origin, origin[2]),
+                                        origin_offset=(0, 0, 0),
+                                        axis=(0, 0, 0),
+                                        theta=theta+np.pi/2,
+                                        phi=np.pi/2,
+                                        size=(0.5, 0.25)))
+
+        self.stalks_list.append(Trapezoid(color=(0.1, 0.1, 0.7),
+                                          origin=(origin[0], origin[1]+y_stalk_origin, origin[2]),
+                                          origin_offset=(1, 0, 0),
+                                          axis=(0, 0, 0),
+                                          theta=theta,
+                                          size=(1.6, 1.6, 1.7, 1.7, 0.45, 0.25)))
+
+        self.stalks_list.append(HexagonStalk(color=(0.1, 0.1, 0.9),
+                                             origin=(origin[0], origin[1]+y_stalk_origin, origin[2]),
+                                             origin_offset=(0, -0.25, -0.15),
                                              axis=(0, 0, 0),
                                              theta=theta,
-                                             size=(0.1, 1)))
+                                             size=(0.1, 2)))
 
-        # self.solids_list.append(Stalk(color=(0.1, 0.1, 0.9),
-        #                               origin=(self.origin[0], self.origin[2], self.origin[2]-5),
-        #                               offset=(0, 0, 0),
-        #                               axis=(0, 0, 0),
-        #                               xyz=(self.x, self.y, self.z)))
+        self.stalks_list.append(HexagonStalk(color=(0.1, 0.1, 0.9),
+                                             origin=(origin[0], origin[1]+y_stalk_origin, origin[2]),
+                                             origin_offset=(0, -0.25, 0.15),
+                                             axis=(0, 0, 0),
+                                             theta=theta,
+                                             size=(0.1, 2)))
+
+        self.stalks_list.append(HexagonStalk(color=(0.1, 0.1, 0.9),
+                                             origin=(origin[0], origin[1]+y_stalk_origin, origin[2]),
+                                             origin_offset=(0, 0.25, -0.15),
+                                             axis=(0, 0, 0),
+                                             theta=theta,
+                                             size=(0.1, 2)))
+
+        self.stalks_list.append(HexagonStalk(color=(0.1, 0.1, 0.9),
+                                             origin=(origin[0], origin[1]+y_stalk_origin, origin[2]),
+                                             origin_offset=(0, 0.25, 0.15),
+                                             axis=(0, 0, 0),
+                                             theta=theta,
+                                             size=(0.1, 2)))
 
     def draw(self, mode=None):
-        # self.solids_list[-2].origin = (self.x, self.y, self.z-5)
-        # self.solids_list[-2].axis = (0, 1, 0)
-        # self.solids_list[-2].theta = self.theta
+        for solid in self.base_list:
+            # solid.phi = np.pi/2
+            solid.theta = self.theta+np.pi/2
+            solid.draw(mode)
 
-        # self.solids_list[-1].axis = (-np.cos(self.theta)*np.cos(self.phi),
-        #                              np.sin(self.phi),
-        #                              -np.sin(self.theta)*np.cos(self.phi))
-        # # self.solids_list[-1].theta = self.theta
-        # self.solids_list[-1].theta = (self.theta**2 + (np.pi/2 - self.phi)**2)**0.5
-
-        # self.solids_list[-1].xyz = (self.x, self.y, self.z)
-
-        self.solids_list[-1].phi = self.phi
-        self.solids_list[-1].theta = self.theta
-
-        for solid in self.solids_list:
+        for solid in self.stalks_list:
+            solid.phi = self.phi
+            solid.theta = self.theta
             solid.draw(mode)
 
 

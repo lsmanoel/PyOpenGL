@@ -9,8 +9,8 @@ from OpenGL.GLU import *
 
 class Tank(SolidsGroup):
     def __init__(self,
-                 origin=(0, 0, -5),
-                 offset=(0, 0, 0),
+                 origin=(0, 0, 0),
+                 origin_offset=(0, 0, 0),
                  axis=(1, 1, 0),
                  theta=np.pi/2):
 
@@ -18,7 +18,9 @@ class Tank(SolidsGroup):
 
         track_1 = Trapezoid(color=(0.1, 0.1, 0.1),
                             origin=origin,
-                            offset=(0, 0.1, 0.45),
+                            origin_offset=(origin_offset[0],
+                                           0.1 + origin_offset[1],
+                                           origin_offset[2] + 0.45),
                             axis=axis,
                             theta=theta,
                             size=(1.6, 1.6, 1.7, 1.7, 0.2, 0.25))
@@ -26,7 +28,9 @@ class Tank(SolidsGroup):
 
         track_2 = Trapezoid(color=(0.1, 0.1, 0.1),
                             origin=origin,
-                            offset=(0, 0.1, -0.45),
+                            origin_offset=(origin_offset[0],
+                                           0.1+origin_offset[1],
+                                           -0.45+origin_offset[2]),
                             axis=axis,
                             theta=theta,
                             size=(1.6, 1.6, 1.7, 1.7, 0.2, 0.25))
@@ -34,7 +38,9 @@ class Tank(SolidsGroup):
 
         chassis_1 = Trapezoid(color=(0, 0.2, 0),
                               origin=origin,
-                              offset=(0, 0.1, 0),
+                              origin_offset=(origin_offset[0],
+                                             0.1+origin_offset[1],
+                                             origin_offset[2]),
                               axis=axis,
                               theta=theta,
                               size=(1.5, 1.5, 1.7, 1.6, 0.2, 0.6))
@@ -42,7 +48,12 @@ class Tank(SolidsGroup):
 
         chassis_2 = Trapezoid(color=(0, 0.3, 0),
                               origin=origin,
-                              offset=(0, self.solids_list[-1].size[4]/2+self.solids_list[-1].offset[1] + 0.05, 0),
+                              origin_offset=(origin_offset[0],
+                                             self.solids_list[-1].size[4]/2
+                                             + self.solids_list[-1].origin_offset[1]
+                                             + 0.05
+                                             + origin_offset[1],
+                                             origin_offset[2]),
                               axis=axis,
                               theta=theta,
                               size=(1.7, 1.6, 1.3, 1.6, 0.1, 1))
@@ -50,7 +61,12 @@ class Tank(SolidsGroup):
 
         chassis_3 = Trapezoid(color=(0, 0.3, 0),
                               origin=origin,
-                              offset=(0, self.solids_list[-1].size[4]/2+self.solids_list[-1].offset[1] + 0.05, 0),
+                              origin_offset=(origin_offset[0],
+                                             self.solids_list[-1].size[4]/2
+                                             + self.solids_list[-1].origin_offset[1]
+                                             + 0.05
+                                             + origin_offset[1],
+                                             origin_offset[2]),
                               axis=axis,
                               theta=theta,
                               size=(1.2, 1.6, 1.2, 1.3, 0.1, 1))
@@ -58,7 +74,12 @@ class Tank(SolidsGroup):
 
         chassis_4 = Trapezoid(color=(0, 0.3, 0),
                               origin=origin,
-                              offset=(0, self.solids_list[-1].size[4]/2+self.solids_list[-1].offset[1] + 0.0125, 0),
+                              origin_offset=(origin_offset[0],
+                                             self.solids_list[-1].size[4]/2
+                                             + self.solids_list[-1].origin_offset[1]
+                                             + 0.0125
+                                             + origin_offset[1],
+                                             origin_offset[2]),
                               axis=axis,
                               theta=theta,
                               size=(1.2, 1.3, 1, 1, 0.025, 1))
@@ -66,7 +87,13 @@ class Tank(SolidsGroup):
 
         turret_1 = Hexagon(color=(0, 0.3, 0),
                            origin=origin,
-                           offset=(0, self.solids_list[-1].size[4]/2+self.solids_list[-1].offset[1] + 0.025, 0),
+                           origin_offset=(origin_offset[2],
+                                          origin_offset[2]
+                                          + self.solids_list[-1].size[4]/2
+                                          + self.solids_list[-1].origin_offset[1]
+                                          + 0.025
+                                          + origin_offset[1],
+                                          origin_offset[2]),
                            axis=axis,
                            theta=theta,
                            size=(0.8, 0.05))
@@ -74,7 +101,12 @@ class Tank(SolidsGroup):
 
         turret_2 = Hexagon(color=(0, 0.25, 0),
                            origin=origin,
-                           offset=(0, self.solids_list[-1].size[1]/2+self.solids_list[-1].offset[1] + 0.05, 0),
+                           origin_offset=(origin_offset[1],
+                                          self.solids_list[-1].size[1]/2
+                                          + self.solids_list[-1].origin_offset[1]
+                                          + 0.05
+                                          +origin_offset[1],
+                                          origin_offset[2]),
                            axis=axis,
                            theta=theta,
                            size=(1, 0.1))
@@ -82,7 +114,12 @@ class Tank(SolidsGroup):
 
         turret_3 = Hexagon(color=(0, 0.30, 0),
                            origin=origin,
-                           offset=(0, self.solids_list[-1].size[1]/2+self.solids_list[-1].offset[1] + 0.025, 0),
+                           origin_offset=(origin_offset[0],
+                                          self.solids_list[-1].size[1]/2
+                                          + self.solids_list[-1].origin_offset[1]
+                                          + 0.025
+                                          + origin_offset[1],
+                                          origin_offset[2]),
                            axis=axis,
                            theta=theta,
                            size=(0.76, 0.05))
@@ -90,7 +127,12 @@ class Tank(SolidsGroup):
 
         turret_4 = Hexagon(color=(0, 0.3, 0),
                            origin=origin,
-                           offset=(0, self.solids_list[-1].size[1]/2+self.solids_list[-1].offset[1] + 0.0125, 0),
+                           origin_offset=(origin_offset[1],
+                                          self.solids_list[-1].size[1]/2 +
+                                          self.solids_list[-1].origin_offset[1]
+                                          + 0.0125
+                                          + origin_offset[1],
+                                          origin_offset[2]),
                            axis=axis,
                            theta=theta,
                            size=(0.7, 0.025))
@@ -98,7 +140,11 @@ class Tank(SolidsGroup):
 
         cannon_1 = HexagonAxis(color=(0, 0.15, 0),
                                origin=origin,
-                               offset=(-1, self.solids_list[-1].size[1]/2+self.solids_list[-1].offset[1] - 0.1, 0),
+                               origin_offset=(-1,
+                                              self.solids_list[-1].size[1]/2
+                                              + self.solids_list[-1].origin_offset[1]
+                                              - 0.1,
+                                              0),
                                axis=axis,
                                theta=theta,
                                size=(0.1, 1.6))
@@ -106,7 +152,7 @@ class Tank(SolidsGroup):
 
         super().__init__(solids_list=self.solids_list,
                          origin=origin,
-                         offset=offset,
+                         origin_offset=origin_offset,
                          axis=axis,
                          theta=theta)
 

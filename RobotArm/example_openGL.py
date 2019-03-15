@@ -28,14 +28,14 @@ class PgScreen:
         glMatrixMode(GL_MODELVIEW)
         glEnable(GL_DEPTH_TEST)
 
-        self.main_state = 'start_state'
+        self.main_state = 'run_state'
         self.close_app = False
         self.clock = pygame.time.Clock()
 
         # --------------------------------------------------------------------------------------------------------------
         self.part_list = []
 
-        self.part_list.append(MasterPart(origin=(0, 0, 0),
+        self.part_list.append(MasterPart(origin=(0, -2, -5),
                                          theta=0,
                                          phi=np.pi/2,
                                          length=1))
@@ -101,5 +101,5 @@ class PgScreen:
 
 
 # ======================================================================================================================
-PgScreen(screen_size=(1200, 400)).main_loop()
+PgScreen(screen_size=(600, 500)).main_loop()
 

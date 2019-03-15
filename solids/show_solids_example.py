@@ -54,7 +54,6 @@ def main():
         parallelepiped_2.theta_degree -= 1
         parallelepiped_2.draw()
 
-        pyramid_1.draw()
         pyramid_1.origin = [0, 0, -5]
         pyramid_1.axis = [1, 1, 0]
         pyramid_1.theta_degree += 1
